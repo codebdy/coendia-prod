@@ -1,100 +1,64 @@
 ---
 import { rx } from "theme";
-import { Link } from "@rxdrag/website-lib";
-import IconUser from "@/components/IconUser.astro";
-import IconEmail from "@/components/IconEmail.astro";
-import IconPhone from "@/components/IconPhone.astro";
-const config = (await rx.getTheme())?.config;
-const links = [
-  {
-    title: "首页",
-    href: "/",
-  },
-  {
-    title: "关于我们",
-    href: "/about",
-  },
-  {
-    title: "技术",
-    href: "/technology",
-  },
-  {
-    title: "博客",
-    href: "/blog",
-  },
-  {
-    title: "联系我们",
-    href: "/contact",
-  },
-];
-// 获取产品数据
-const { slug } = Astro.params || {};
-console.log(slug);---
+import { Popover, Motion, PopoverPanel, Link } from "@rxdrag/website-lib";
+import { Icon } from "@rxdrag/website-lib-core";
+const theme = await rx.getTheme();
+const langs = await rx.getLangs();---
 
-<footer aria-labelledby="footer-heading" class="w-full bg-[#333333] mt-0 dark p-10 pt-24">
-  <h2 class="sr-only" id="footer-heading">
-    页脚
-  </h2>
-  <div class="mx-auto container flex flex-col gap-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-foreground-primary text-xs gap-4">
-      <div class="flex">
-        <img alt="Logo" class="h-8 w-auto transition-all" src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/71aa3b01-286b-4a51-ae85-9505a76ff387.png" />
-      </div>
-      <div class="hidden lg:block">
-        <ul class="grid grid-cols-2 uppercase gap-2">
-{
-            links.map((link) => (<li>
-            <a href={link.href}>
-            {link.title}
-            </a>
-            </li>))
-          }
-          <Link activeWhen="/products" type="products" class:list={[
-              "flex items-center gap-x-1  cursor-default h-full",
-            ]}>
-            解决方案
-          </Link>
-        </ul>
-      </div>
-      <div class="flex justify-center items-center">
-        <ul class="flex flex-col gap-6 text-sm">
-          <li class="flex items-center gap-2">
-            <IconUser class="size-5" />
-            联系人:
-            {config?.contact}
-          </li>
-          <li class="flex items-center gap-2">
-            <IconEmail class="size-5" />
-            邮箱:
-            {config?.email}
-          </li>
-          <li class="flex items-center gap-2">
-            <IconPhone class="size-5" />
-            电话:
-            {config?.tel}
-          </li>
-        </ul>
-      </div>
-      <div class="flex justify-center gap-2 items-center">
-        <a class="bg-white size-10 flex items-center justify-center text-black rounded-sm opacity-70" href="#" target="_blank">
-          <svg xmlns="http://www.w3.org/2000/svg" class="size-6" width="1024" height="1024" viewBox="0 0 1024 1024">
-            <path fill="currentColor" d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32M349.3 793.7H230.6V411.9h118.7zm-59.3-434a68.8 68.8 0 1 1 68.8-68.8c-.1 38-30.9 68.8-68.8 68.8m503.7 434H675.1V608c0-44.3-.8-101.2-61.7-101.2c-61.7 0-71.2 48.2-71.2 98v188.9H423.7V411.9h113.8v52.2h1.6c15.8-30 54.5-61.7 112.3-61.7c120.2 0 142.3 79.1 142.3 181.9z" />
-          </svg>
-        </a>
-        <a class="bg-white size-10 flex items-center justify-center text-black rounded-sm opacity-70" href="#" target="_blank">
-          <svg xmlns="http://www.w3.org/2000/svg" class="size-6" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978c.401 0 .955.042 1.468.103a9 9 0 0 1 1.141.195v3.325a9 9 0 0 0-.653-.036a27 27 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.7 1.7 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103l-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647" />
-          </svg>
-        </a>
-        <div class="bg-white size-10 flex items-center justify-center text-black rounded-sm opacity-70">
-          <svg xmlns="http://www.w3.org/2000/svg" class="size-6" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M10.488 14.651L15.25 21h7l-7.858-10.478L20.93 3h-2.65l-5.117 5.886L8.75 3h-7l7.51 10.015L2.32 21h2.65zM16.25 19L5.75 5h2l10.5 14z" />
-          </svg>
-        </div>
-      </div>
-    </div>
-    <div class="flex justify-center text-sm text-foreground-secondary">
-      © 版权所有 - Coendia
+<Popover class="relative">
+  <div class="flex items-center gap-2 nowrap cursor-pointer">
+    <Icon icon={theme?.lang?.icon} className="size-4" client:load />
+    <div
+      class="flex items-center gap-0 py-1 group-hover/header:text-black text-xs"
+    >
+      {theme?.lang?.localName}
+      <Motion
+        class="h-5 w-5 flex items-center justify-center"
+        whileOpenable={{ open: { rotate: 180 }, close: { rotate: 0 } }}
+      >
+        <svg
+          class="size-4"
+          aria-hidden="true"
+          fill="currentColor"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"></path>
+        </svg>
+      </Motion>
     </div>
   </div>
-</footer>
+  <PopoverPanel
+    animate={{
+      initial: {
+        height: 0,
+      },
+    }}
+    class:list={[
+      "bg-white shadow-lg rounded-md",
+      "absolute top-full min-w-full right-0 text-sm text-gray-700 w-[120px]",
+      "opacity-1 overflow-hidden z-20",
+    ]}
+  >
+    {
+      langs?.map((lang) => (
+        <Link
+          to={"https://" + (lang?.themes?.[0].config?.domain || "")}
+          class:list={[
+            "px-2 py-2 hover:bg-gray-200 flex items-center gap-1 nowrap",
+            lang.abbr === theme?.lang?.abbr && "bg-gray-300",
+          ]}
+        >
+          {lang?.icon && (
+            <Icon
+              icon={lang?.icon}
+              className="size-4 shrink-0 border border-gray-200"
+              client:load
+            />
+          )}
+          <div class="nowrap">{lang.localName}</div>
+        </Link>
+      ))
+    }
+  </PopoverPanel>
+</Popover>
