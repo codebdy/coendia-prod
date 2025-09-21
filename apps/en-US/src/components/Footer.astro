@@ -4,7 +4,6 @@ import { Link } from "@rxdrag/website-lib";
 import IconUser from "@/components/IconUser.astro";
 import IconEmail from "@/components/IconEmail.astro";
 import IconPhone from "@/components/IconPhone.astro";
-
 const config = (await rx.getTheme())?.config;
 const links = [
   {
@@ -30,14 +29,14 @@ const links = [
 ];
 // 获取产品数据
 const { slug } = Astro.params || {};
-console.log(slug);---
+console.log(slug);---
 
 <footer aria-labelledby="footer-heading" class="w-full bg-[#333333] mt-0 dark p-10 pt-24">
   <h2 class="sr-only" id="footer-heading">
     Footer
   </h2>
   <div class="mx-auto container flex flex-col gap-16">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-foreground-primary text-xs gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 text-foreground-primary text-sm gap-4">
       <div class="flex">
         <img alt="Logo" class="h-8 w-auto transition-all" src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/71aa3b01-286b-4a51-ae85-9505a76ff387.png" />
       </div>
@@ -51,7 +50,6 @@ console.log(slug);---
             </li>))
           }
           <Link activeWhen="/products" type="products" class:list={[
-              "desk-nav-link",
               "flex items-center gap-x-1  cursor-default h-full",
             ]}>
             Solutions
