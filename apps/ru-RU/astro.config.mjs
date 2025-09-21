@@ -3,7 +3,7 @@ import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import node from "@astrojs/node";
 import sitemap from "@astrojs/sitemap";
-import cloudflare from "@astrojs/cloudflare";
+import vercel from "@astrojs/vercel"
 
 export default defineConfig({
   site: "https://ru.coendia.com",
@@ -35,5 +35,10 @@ export default defineConfig({
   redirects: {
 
   },
-    adapter: cloudflare(),
+  adapter: vercel({
+    imageService: true,
+    webAnalytics: {
+      enabled: true,
+    },
+  }),
 });
