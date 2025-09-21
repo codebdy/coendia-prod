@@ -9,6 +9,7 @@ import CtaBlock from "@/components/CtaBlock.astro";
 import Footer from "@/components/Footer.astro";
 import MiniFloat from "@/components/MiniFloat.astro";
 import Globals from "@/components/Globals.astro";
+
 // Генерация хлебных крошек
 const breadcrumbs = rxPage.breadcrumbs("Technical", "Home");
 const meta = (await rx.getPageBySlug("service"))?.meta;
@@ -77,12 +78,12 @@ const technologyCards = [
     tag: "Собственная разработка оборудования",
     img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/e04b8a49-043d-4871-a33b-67a1bfe91ec7.jpg",
   },
-];---
+];---
 
 <Layout>
   <Meta slot="meta" content={meta} />
   <Header />
-  <Breadcrumb items={breadcrumbs} title="Технические возможности" bgUrl="/images/breadcrumb-bg-3.jpg" />
+  <Breadcrumb items={breadcrumbs} title="Технические возможности" bgUrl="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/e638f635-ccd2-4beb-9896-a650f657308d.jpg" />
   <section class="w-full mt-24">
     <div class="container flex flex-col gap-6">
       <h2 class="block-title">
