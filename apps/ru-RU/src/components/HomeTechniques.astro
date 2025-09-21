@@ -1,0 +1,15 @@
+---
+import BlockTitle from "@/components/BlockTitle.astro";
+import BlockLR from "@/components/BlockLR.astro";
+---
+
+<section class="m-h-20 w-full relative">
+  <div class="container flex flex-col gap-8 lg:gap-16 items-stretch py-12">
+    <BlockTitle title="Передовые производственные технологии" sub_title="Индивидуальная лазерная обработка компонентов медицинских эндоскопов" />
+    <div class="grid grid-cols-1 gap-8">
+      <BlockLR src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/d0b5674f-3b3c-403c-b634-fd5337c85e54.jpg" title="Сверхминиатюрная высокоточная лазерная резка" sub_title="Лазерный луч 0.017 мм, обеспечивает точность резки в пределах 0.02 мм." />
+      <BlockLR reverse={true} src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/f55890d8-6d26-4f9c-8eb5-2924b290327e.jpg" title="Сверхминиатюрная сварка камерных модулей" sub_title="Высокоточная технология сварки, позволяет сваривать камеры размером до 0.5*0.5 мм, обеспечивая стабильность и надежность микроскопических камер." />
+      <BlockLR src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/0dd079ab-ce38-4b76-b265-e8905530cac8.jpg" title="Беспыльевое прецизионное литье под давлением" sub_title="Высокоточное литье под давлением, контроль перепада температур ±0.5°C, обеспечивает долговечность и комфорт рукоятки." />
+    </div>
+  </div>
+</section>

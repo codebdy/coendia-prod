@@ -1,0 +1,13 @@
+---
+import { ModalTrigger } from "@rxdrag/website-lib";
+import { Icon } from "@rxdrag/website-lib-core";
+import QCode from "@/components/QCode.astro";
+---
+
+<div class="w-14 fixed top-1/2 right-4 translate-y-1/2 z-30 bg-primary rounded-lg flex flex-col gap-1 p-1">
+  <QCode icon="mdi:whatsapp" imageSrc="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/1801a3c6-231b-4465-94a5-bea3a83d4670.png" altText="二维码" />
+  <hr class="w-full h-px bg-white/10 opacity-30" />
+  <ModalTrigger as="button" openableKey="enquiry-modal" callToAction="迷你浮动咨询" class="w-12 h-12 flex items-center justify-center rounded-full text-white">
+    <Icon icon="mdi:email-outline" className="size-7" client:load />
+  </ModalTrigger>
+</div>

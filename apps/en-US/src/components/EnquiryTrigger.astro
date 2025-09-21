@@ -1,0 +1,16 @@
+---
+import { ModalTrigger } from "@rxdrag/website-lib";
+
+interface Props {
+  class?: string;
+  callToAction?: string;
+}
+const { class: className, callToAction } = Astro.props;---
+
+<ModalTrigger
+  class:list={["cursor-pointer btn btn-primary", className]}
+  openableKey="enquiry-modal"
+  callToAction={callToAction}
+>
+  <slot />
+</ModalTrigger>

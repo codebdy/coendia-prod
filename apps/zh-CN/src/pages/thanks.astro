@@ -1,0 +1,38 @@
+---
+import { PageType } from "@rxdrag/rxcms-models";
+import Layout from "@/layouts/Layout.astro";
+import { rx } from "theme";
+import { Meta, Link } from "@rxdrag/website-lib";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import IconRight from "@/components/IconRight.astro";
+import Footer from "@/components/Footer.astro";
+import Globals from "@/components/Globals.astro";
+const meta = (await rx.getPageByType(PageType.Thanks))?.meta;---
+
+<Layout>
+  <Header />
+  <Meta title="感谢您" slot="meta" content={meta} />
+  <Breadcrumb separator="/" title="感谢您" />
+  <div class="container mt-36 mx-auto px-4 py-16 h-[calc(100vh-18rem)]">
+    <div class="max-w-4xl mx-auto py-0 md:py-12 lg:24 xl:36">
+      <div class="flex flex-col md:flex-row items-center space-x-8">
+        <img src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/d9139acd-95b7-49e3-850a-dd5a740fecd5.png" alt="感谢图标" class="size-64" />
+        <div class="flex flex-col items-start gap-8">
+          <h1 class="text-4xl font-bold text-gray-900 tracking-tight text-left">
+            感谢您的咨询！
+          </h1>
+          <p class="text-base text-foreground-secondary max-w-lg text-left leading-relaxed">
+            我们已经收到您的消息，并将尽快回复您。
+          </p>
+          <Link to="/" class="text-primary font-semibold flex gap-2 items-center">
+            返回首页
+            <IconRight class="size-6" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  </div>
+  <Footer />
+  <Globals />
+</Layout>

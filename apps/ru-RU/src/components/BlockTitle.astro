@@ -1,0 +1,16 @@
+---
+import { Motion } from "@rxdrag/website-lib";
+interface Props {
+  title?: string;
+  sub_title?: string;
+}
+const { title, sub_title } = Astro.props;---
+
+<Motion class="flex flex-col gap-6 items-center" whileInView="fade-up">
+  <h2 class="block-title" data-animation="fade-up">
+    {title}
+  </h2>
+  <p class="block-subtitle">
+    {sub_title}
+  </p>
+</Motion>

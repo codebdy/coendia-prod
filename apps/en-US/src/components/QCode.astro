@@ -1,0 +1,22 @@
+---
+import { Icon } from "@rxdrag/website-lib-core";
+
+interface QCodeProps {
+  icon?: string;
+  imageSrc?: string;
+  altText?: string;
+}
+const {
+  icon = "mdi:whatsapp",
+  imageSrc = "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/1801a3c6-231b-4465-94a5-bea3a83d4670.png",
+  altText = "QR Code",
+} = Astro.props as QCodeProps;---
+
+<div class="relative group">
+  <button class="w-12 h-12 flex items-center justify-center rounded-full text-white">
+    <Icon icon={icon} className="size-7" client:load />
+  </button>
+  <div class="absolute min-w-36 bg-white top-0 right-16 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 pointer-events-none p-1 rounded-md">
+    <img class="w-full h-full object-cover" src={imageSrc} alt={altText} srcset />
+  </div>
+</div>

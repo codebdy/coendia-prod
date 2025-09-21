@@ -1,0 +1,91 @@
+---
+import dayjs from "dayjs";
+import { Link } from "@rxdrag/website-lib";
+import IconUser from "@/components/IconUser.astro";
+import IconRight from "@/components/IconRight.astro";
+
+interface Props {
+  post?: TPost;
+  detailTitle?: string;
+}
+const { post, detailTitle } = Astro.props;---
+
+<article
+  class="w-full relative isolate flex flex-col gap-6 pb-8 shadow-md rounded-sm"
+>
+  <div class="w-full flex flex-col">
+    <Link type="post" to={post?.slug}>
+      <div class="relative aspect-[3/2]">
+        <img
+          class="min-h-20 absolute inset-0 h-full w-full bg-gray-50 object-cover"
+          src={post?.cover?.resize}
+          alt={post?.title || "Post image"}
+        />
+      </div>
+    </Link>
+    <div class="relative gap-x-4 text-sm pt-4 px-6">
+      <div
+        class:list={[
+          "absolute top-0 left-4 -translate-y-1/2 text-white",
+          "size-16 flex flex-col justify-center items-center",
+          "bg-primary rounded-md",
+        ]}
+      >
+        <span class="text-lg font-bold font-mono"
+          >{dayjs(post?.publishedAt).date()}</span
+        >
+        <span class="text font-mono uppercase opacity-90">
+          {dayjs(post?.publishedAt).format("MMM")}
+        </span>
+      </div>
+      <div
+        class="relative w-full flex justify-between text-foreground-secondary"
+      >
+        {
+          post?.author?.name && (
+            <div class="ml-24 flex items-center gap-x-1">
+              <IconUser class="size-5" />
+              <Link
+                type="user"
+                to={post?.author?.id || ""}
+                class="text-foreground-secondary hover:text-primary-500 "
+              >
+                {post?.author?.name}
+              </Link>
+            </div>
+          )
+        }
+        {dayjs(post?.createdAt)?.format("MMMM D, YYYY")}
+      </div>
+    </div>
+  </div>
+  <div class="px-6">
+    <div class="group relative max-w-xl">
+      <Link
+        type="post"
+        class="hover:scale-105 transition-transform duration-300"
+        to={post?.slug}
+      >
+        <h3
+          class="mt-3 text-lg font-semibold leading-6 text-gray-900 hover:text-sky-600"
+        >
+          {post?.title}
+        </h3>
+      </Link>
+    </div>
+  </div>
+  <p class="text-sm text-gray-500 px-6">{post?.description}</p>
+  <div class="flex justify-start px-6">
+    <Link
+      class:list={[
+        "text-base hover:text-primary-500 flex items-center gap-x-2 font-mono",
+        "hover:scale-105 transition-transform duration-300",
+      ]}
+      type="post"
+      to={post?.slug}
+    >
+      {detailTitle || "Read more"}
+      <IconRight class="size-5" />
+    </Link>
+  </div>
+</article>

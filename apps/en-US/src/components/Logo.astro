@@ -1,0 +1,11 @@
+---const { alt = "", title = "Logo", class: className } = Astro.props;---
+
+<div class:list={["flex", className]}>
+  <a href="/" class="relative w-[120px] h-[24px] scrolled:w-[110px] scrolled:h-[22px] transition-all">
+    <span class="sr-only">
+      {title}
+    </span>
+    <img alt={alt} class="absolute top-0 left-0 w-full h-full  opacity-100 scrolled:opacity-0 group-hover/header:opacity-0 transition-all" src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/71aa3b01-286b-4a51-ae85-9505a76ff387.png" />
+    <img alt={alt} class="absolute top-0 left-0 w-full h-full  opacity-0 scrolled:opacity-100 group-hover/header:opacity-100 transition-all" src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/771b1b7e-aed2-4c4f-bb48-df5dfe9fc857.png" />
+  </a>
+</div>

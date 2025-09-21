@@ -1,0 +1,117 @@
+---
+import { Motion } from "@rxdrag/website-lib";
+import VideoPlayer from "@/components/VideoPlayer.astro";
+interface Props {
+  noButton?: boolean;
+}
+const { noButton = false } = Astro.props;---
+
+<div class="w-full relative">
+  <div
+    class="w-full container grid grid-cols-1 lg:grid-cols-2 min-h-[300px] gap-12"
+  >
+    <Motion class="h-full" whileInView="fade-left">
+      <div class="w-full h-full flex items-center justify-center">
+        <VideoPlayer />
+      </div>
+    </Motion>
+    <Motion class="h-full" whileInView="fade-right">
+      <div class="w-full bg-white p-16 shadow-lg flex flex-col gap-4 relative">
+        <h3 class="block-title mt-6 text-left" data-animation-about="fade-up">
+          About Coendia
+        </h3>
+
+        <p
+          class="text-sm text-justify text-foreground-secondary"
+          data-animation-about="fade-up"
+        >
+          Your precision endoscopy solutions partner. We specialize in redefining minimally invasive surgery through advanced micro-engineering and automated manufacturing, delivering end-to-end solutions from core components to integrated systems that exceed global compliance standards.
+        </p>
+        <p
+          class="text-sm text-justify text-foreground-secondary"
+          data-animation-about="fade-up"
+        >
+          Driven by our mission to democratize access to quality medical technology, we empower partners to deploy high-value endoscopy solutions—expanding reach to underserved communities worldwide.
+        </p>
+        <p
+          class="text-sm text-justify text-foreground-secondary"
+          data-animation-about="fade-up"
+        >
+          We provide medical device OEMs with:
+        </p>
+        <ul
+          class="list-disc text-sm text-justify text-foreground-secondary flex flex-col gap-2 pl-5"
+        >
+          <li data-animation-about="fade-up">Full-spectrum ODM/OEM capabilities</li>
+          <li data-animation-about="fade-up">
+            Industry-leading performance-to-value ratio
+          </li>
+          <li data-animation-about="fade-up">
+            Consistent quality assurance (ISO 13485 certified)
+          </li>
+        </ul>
+        <p
+          class="text-sm text-justify text-foreground-secondary"
+          data-animation-about="fade-up"
+        >
+          Partner with us to transform surgical innovation into global impact.
+        </p>
+
+        <div class="w-full flex justify-start" data-animation-about="fade-up">
+          {
+            !noButton && (
+              <div id="about-button">
+                <a
+                  class="btn btn-primary btn-md shadow-sm uppercase"
+                  href="/about"
+                >
+                  Learn more...
+                </a>
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </Motion>
+  </div>
+</div>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { pageLoader } from "@rxdrag/website-lib-core";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initAboutAnimations() {
+    // Find container and elements with data-animation="fade-up" attribute
+    const container = document.querySelector(".w-full.container.grid");
+    const fadeUpItems = document.querySelectorAll('[data-animation-about="fade-up"]');
+    if (!container || !fadeUpItems.length) return;
+
+    // Set initial state
+    gsap.set(fadeUpItems, { opacity: 0, y: 30 });
+
+    // Use container trigger to uniformly control all element animations
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      })
+      .to(fadeUpItems, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.1, // Staggered animation
+      });
+  }
+
+  // Initialize animations
+  pageLoader.onLoaded(() => {
+    setTimeout(initAboutAnimations, 100);
+  });
+</script>

@@ -1,0 +1,149 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { rxPage } from "@rxdrag/website-lib-core";
+import { rx } from "theme";
+import { Meta } from "@rxdrag/website-lib";
+import { Icon } from "@rxdrag/website-lib-core";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import AboutBlock from "@/components/AboutBlock.astro";
+import BlockTitle from "@/components/BlockTitle.astro";
+import CtaBlock from "@/components/CtaBlock.astro";
+import Footer from "@/components/Footer.astro";
+import MiniFloat from "@/components/MiniFloat.astro";
+import Globals from "@/components/Globals.astro";
+
+// 生成面包屑
+const breadcrumbs = rxPage.breadcrumbs("关于我们", "首页");
+const serviceAdvantages = [
+  {
+    title: "技术领先",
+    description: "研发能力和高精密设备，帮您实现每个奇思妙想",
+    icon: "lucide:award",
+  },
+  {
+    title: "定制化服务",
+    description: "支持来图加工，提供个性化的解决方案和技术支持",
+    icon: "lucide:target",
+  },
+  {
+    title: "质量保证",
+    description: "严格的质量管理体系，确保每个产品都符合国际标准",
+    icon: "lucide:shield",
+  },
+  {
+    title: "快速交付",
+    description: "高效的生产流程和供应链管理，确保按时交付",
+    icon: "lucide:clock",
+  },
+];
+const meta = (await rx.getPageBySlug("about"))?.meta;---
+
+<Layout>
+  <Meta slot="meta" content={meta} />
+  <Header />
+  <Breadcrumb items={breadcrumbs} title="关于我们" bgUrl="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/405cb6a3-a8f5-4333-b996-b2b88ae8230c.jpg" />
+  <div class="flex flex-col relative mt-20">
+    <section>
+      <AboutBlock noButton={true} />
+    </section>
+  </div>
+  <div class="min-h-screen mt-24">
+    <!--   Service Advantages   -->
+    <section class="py-20 bg-white">
+      <div class="container">
+        <div class="text-center mb-16">
+          <BlockTitle title="服务优势" sub_title="强大的研发能力和供应链能力，为您提供全流程解决方案" />
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 service-advantages-grid">
+{
+            serviceAdvantages.map((advantage, index) => (<div class="text-center p-12 border border-gray-200 rounded-lg service-advantage-card" data-index={index}>
+            <div class="flex justify-center mb-4 advantage-icon">
+            <Icon icon={advantage.icon} className="size-12 text-primary" client:load />
+            </div>
+            <h3 class="text-xl font-semibold mb-2 advantage-title">
+            {advantage.title}
+            </h3>
+            <p class="text-gray-600 advantage-desc">
+            {advantage.description}
+            </p>
+            </div>))
+          }
+        </div>
+      </div>
+    </section>
+    <CtaBlock />
+    <Footer />
+    <MiniFloat />
+    <Globals />
+  </div>
+</Layout>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { pageLoader } from "@rxdrag/website-lib-core";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initAbAnimations() {
+    // 查找服务优势元素
+    const advantageCards = document.querySelectorAll(".service-advantage-card");
+    const advantageGrid = document.querySelector(".service-advantages-grid");
+
+    if (!advantageCards.length || !advantageGrid) return;
+
+    // 设置初始状态
+    gsap.set(advantageCards, {
+      opacity: 0,
+      y: 60,
+      scale: 0.9,
+    });
+
+    // 创建动画时间线
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: advantageGrid,
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      })
+      .to(advantageCards, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.15,
+      });
+
+    // 为每个卡片添加悬停效果
+    advantageCards.forEach((card) => {
+      const icon = card.querySelector(".advantage-icon");
+
+      if (icon) {
+        card.addEventListener("mouseenter", () => {
+          gsap.to(icon, {
+            scale: 1.1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        card.addEventListener("mouseleave", () => {
+          gsap.to(icon, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      }
+    });
+  }
+
+  // 初始化动画
+  pageLoader.onLoaded(() => {
+    setTimeout(initAbAnimations, 100);
+  });
+</script>

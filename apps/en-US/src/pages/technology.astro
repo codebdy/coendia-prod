@@ -1,0 +1,239 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { rx } from "theme";
+import { rxPage } from "@rxdrag/website-lib-core";
+import { Meta } from "@rxdrag/website-lib";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import CtaBlock from "@/components/CtaBlock.astro";
+import Footer from "@/components/Footer.astro";
+import MiniFloat from "@/components/MiniFloat.astro";
+import Globals from "@/components/Globals.astro";
+
+// 生成面包屑
+const breadcrumbs = rxPage.breadcrumbs("Technical", "Home");
+const meta = (await rx.getPageBySlug("service"))?.meta;
+// 技术工艺卡片数据抽取
+const technologyCards = [
+  {
+    title: "High-Precision Laser Cutting",
+    description: `High-precision cutting of φ0.3–φ15mm tubes; cutting accuracy ±0.02mm, complex cuts can be achieved precisely. Premium laser source and stable transmission ensure reliable continuous operation.`,
+    badges: ["φ0.3–φ15mm", "±0.02mm", "Continuous & Stable"],
+    tag: "±0.02mm",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/d3fb0ab1-a916-4f0e-b08c-6046abf2efdd.jpg",
+  },
+  {
+    title: "Endoscope Snake Bone Riveting",
+    description: `Automated high-precision riveting, minimum snake bone φ1.8mm; riveting accuracy ≤ ±0.02mm, strong connections with flexible movement.`,
+    badges: ["Minimum φ1.8mm", "±0.02mm", "Automated"],
+    tag: "±0.02mm",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/9760c5d2-2a8a-4464-86c9-d1b4a0a7ddfb.jpg",
+  },
+  {
+    title: "Endoscope Snake Bone Welding",
+    description: `Precision welding with weld diameter as small as 0.1mm; inert gas protection prevents oxidation. Passes high/low temperature and vibration tests without cracking or detachment, ensuring excellent reliability.`,
+    badges: ["0.1mm weld", "Inert Gas Protection", "Environmental Stress Tested"],
+    tag: "Weld ≥0.1mm",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/54993837-9375-4321-8579-202d9dad329f.jpg",
+  },
+  {
+    title: "Micro Camera Welding",
+    description: `Self-developed automated equipment achieves high-precision welding; camera to PCB deviation ≤0.01mm. Laser welding minimizes heat impact, with real-time visual quality monitoring.`,
+    badges: ["≤0.01mm", "Laser Welding", "Visual Monitoring"],
+    tag: "Deviation ≤0.01mm",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/eb46c5bd-6b69-4501-8ce8-a9005ac8a5fb.jpg",
+  },
+  {
+    title: "Dust-Free Precision Injection Molding",
+    description: `Design and manufacturing capabilities; advanced injection molding and tooling, smooth surface without bubbles or sink marks; automatic feeding, demolding, and inspection ensure efficiency and consistent quality.`,
+    badges: ["Automated", "Excellent Surface", "Consistency"],
+    tag: "+0.5℃",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/fc989135-fa1f-4c0e-abf5-57c5c96b6fbd.jpg",
+  },
+  {
+    title: "Coated Tube Extrusion",
+    description: `Precision extrusion of φ0.5–φ15mm tubes with coating thickness 0.05–0.5mm; high-precision die and temperature control ensure uniform, dense coating with strong adhesion.`,
+    badges: ["φ0.5–φ15mm", "0.05–0.5mm", "High Adhesion"],
+    tag: "φ0.5–φ15mm",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/801eb263-be36-42bd-812f-83206cde7c31.jpg",
+  },
+  {
+    title: "End-to-End Inspection",
+    description: `Comprehensive inspection system covering raw materials, processes, and finished products; equipped with high-precision instruments and automated devices to ensure quality control and data traceability.`,
+    badges: ["Raw Material Check", "Process Control", "Final Inspection"],
+    tag: "100% Inspected",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/7ed3d216-6b09-47c8-875c-8636f26a45ab.jpg",
+  },
+  {
+    title: "Endoscope Design",
+    description: `Focus on core endoscope technology, mastering the complete process chain; integrates clinical use scenarios to identify and mitigate design risks in advance.`,
+    badges: ["Core Technology", "Closed Process Loop", "Clinically Oriented"],
+    tag: "Risk Mitigation",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/41bafb77-f10b-439c-ad0c-80d0603c6bf8.jpg",
+  },
+  {
+    title: "Self-Developed Equipment",
+    description: `In-house developed laser cutting, camera welding, visual inspection, fatigue and durability testing equipment to ensure quality and production capacity.`,
+    badges: ["Automated", "Customized Production Line", "Efficiency Improvement"],
+    tag: "Self-Developed",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/e04b8a49-043d-4871-a33b-67a1bfe91ec7.jpg",
+  },
+];---
+
+<Layout>
+  <Meta slot="meta" content={meta} />
+  <Header />
+  <Breadcrumb items={breadcrumbs} title="Technical Capabilities" bgUrl="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/e638f635-ccd2-4beb-9896-a650f657308d.jpg" />
+  <section class="w-full mt-24">
+    <div class="container flex flex-col gap-6">
+      <h2 class="block-title">
+        Key Process Capabilities
+      </h2>
+      <p class="block-subtitle">
+        Precision Craftsmanship for Medical Excellence
+      </p>
+      <div class="mt-8 grid gap-16 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 tech-cards-grid">
+{
+          technologyCards.map((card, index) => (<article class="card group rounded-lg bg-white shadow-sm ring-1 ring-slate-200 overflow-hidden tech-card" data-index={index}>
+          <div class="relative aspect-[4/3] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center overflow-hidden tech-card-image">
+          <img class="absolute inset-0 w-full h-full object-cover object-center" src={card.img} alt={card.title} />
+          <span class="absolute right-3 top-3 rounded-full bg-black/15 backdrop-blur px-2 py-1 text-xs text-white tech-card-tag">
+          {card.tag}
+          </span>
+          </div>
+          <div class="p-5 tech-card-content">
+          <h3 class="font-semibold text-slate-900 tech-card-title">
+          {card.title}
+          </h3>
+          <p class="mt-1 text-sm text-slate-600 tech-card-desc">
+          {card.description}
+          </p>
+          <div class="mt-3 flex flex-wrap gap-2 tech-card-badges">
+          {
+          card.badges.map((badge) => (<span class="text-xs font-medium border border-primary-200 text-gray-600 px-4 py-1 rounded-full">
+          {badge}
+          </span>))
+          }
+          </div>
+          </div>
+          </article>))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+<CtaBlock />
+<Footer />
+<MiniFloat />
+<Globals />
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { pageLoader } from "@rxdrag/website-lib-core";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initTechAnimations() {
+    // 查找技术卡片元素
+    const techCards = document.querySelectorAll(".tech-card");
+    const techGrid = document.querySelector(".tech-cards-grid");
+
+    if (!techCards.length || !techGrid) return;
+
+    // 设置初始状态
+    gsap.set(techCards, {
+      opacity: 0,
+      y: 80,
+      scale: 0.95,
+    });
+
+    // 根据响应式布局计算每排卡片数量
+    const getCardsPerRow = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth >= 1024) return 3; // lg:grid-cols-3
+      if (screenWidth >= 768) return 2;  // md:grid-cols-2
+      return 1; // grid-cols-1
+    };
+
+    // 按排分组卡片并为每排创建独立动画
+    const cardsPerRow = getCardsPerRow();
+    const totalRows = Math.ceil(techCards.length / cardsPerRow);
+
+    for (let row = 0; row < totalRows; row++) {
+      const startIndex = row * cardsPerRow;
+      const endIndex = Math.min(startIndex + cardsPerRow, techCards.length);
+      const rowCards = Array.from(techCards).slice(startIndex, endIndex);
+
+      if (rowCards.length > 0) {
+        // 为每排创建独立的ScrollTrigger
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: rowCards[0],
+              start: "top 100%",
+              toggleActions: "play none none reverse",
+            },
+          })
+          .to(rowCards, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            ease: "power2.out",
+            stagger: 0.15,
+          });
+      }
+    }
+
+    // 为每个卡片添加悬停效果
+    techCards.forEach((card) => {
+      const cardImage = card.querySelector(".tech-card-image");
+      const cardTag = card.querySelector(".tech-card-tag");
+      const cardContent = card.querySelector(".tech-card-content");
+
+      if (cardImage && cardTag && cardContent) {
+        card.addEventListener("mouseenter", () => {
+          gsap.to(cardImage, {
+            scale: 1.05,
+            duration: 0.4,
+            ease: "power2.out",
+          });
+          gsap.to(cardTag, {
+            scale: 1.1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+          gsap.to(cardContent, {
+            y: -5,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        card.addEventListener("mouseleave", () => {
+          gsap.to(cardImage, {
+            scale: 1,
+            duration: 0.4,
+            ease: "power2.out",
+          });
+          gsap.to(cardTag, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+          gsap.to(cardContent, {
+            y: 0,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      }
+    });
+  }
+
+  // 初始化动画
+  pageLoader.onLoaded(() => {
+    setTimeout(initTechAnimations, 100);
+  });
+</script>

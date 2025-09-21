@@ -1,0 +1,26 @@
+---
+import { type TProductCategory } from "@rxdrag/website-lib-core";
+import { Link } from "@rxdrag/website-lib";
+
+interface Props {
+  category?: TProductCategory;
+}
+const { category } = Astro.props;---
+
+<Link
+  class:list={[
+    "relative flex flex-col bg-gray-50 gap-10 aspect-square hover:shadow-lg transition-all duration-300 p-6",
+    "hover:scale-105 hover:cursor-pointer",
+  ]}
+  type="product-category"
+  to={category?.slug}
+>
+  <img
+    class="w-full aspect-[4/3]"
+    src={category?.media?.url}
+    alt={category?.name || "Category Image"}
+  />
+  <div class="w-full flex flex-col gap-6 items-center">
+    <p class="">{category?.name}</p>
+  </div>
+</Link>

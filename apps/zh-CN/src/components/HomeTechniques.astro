@@ -1,0 +1,15 @@
+---
+import BlockTitle from "@/components/BlockTitle.astro";
+import BlockLR from "@/components/BlockLR.astro";
+---
+
+<section class="m-h-20 w-full relative">
+  <div class="container flex flex-col gap-8 lg:gap-16 items-stretch py-12">
+    <BlockTitle title="先进制造技术" sub_title="医用内窥镜组件的定制激光加工" />
+    <div class="grid grid-cols-1 gap-8">
+      <BlockLR src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/d0b5674f-3b3c-403c-b634-fd5337c85e54.jpg" title="超微型高精密激光切割" sub_title="0.017mm激光光束，控制切割精度0.02mm以内。" />
+      <BlockLR reverse={true} src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/f55890d8-6d26-4f9c-8eb5-2924b290327e.jpg" title="超微型摄像模组焊接" sub_title="高精度焊接技术，最小可实现0.5*0.5mm摄像头焊接，确保微型摄像头的稳定性和可靠性。" />
+      <BlockLR src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/0dd079ab-ce38-4b76-b265-e8905530cac8.jpg" title="无尘精密注塑" sub_title="高精度注塑成型，温差控制±0.5℃，确保手柄的耐用性和舒适性。" />
+    </div>
+  </div>
+</section>

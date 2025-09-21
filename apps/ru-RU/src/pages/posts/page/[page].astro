@@ -1,0 +1,151 @@
+---
+import { PageType } from "@rxdrag/rxcms-models";
+import Layout from "@/layouts/Layout.astro";
+import { rx } from "theme";
+import { rxPage } from "@rxdrag/website-lib-core";
+import { Meta } from "@rxdrag/website-lib";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import PostCard from "@/components/PostCard.astro";
+import Pagination from "@/components/Pagination.astro";
+import CtaBlock from "@/components/CtaBlock.astro";
+import Footer from "@/components/Footer.astro";
+import MiniFloat from "@/components/MiniFloat.astro";
+import Globals from "@/components/Globals.astro";
+// Получение информации о пагинации и данных статей из props
+const { currentPage, pageSize } = Astro.props;
+export async function getStaticPaths() {
+  // Получение списка маршрутов пагинации
+  return await rx.getPostListPaths({ pageSize: 10, category: undefined });
+}
+const posts = await rx.getPosts({
+  category: undefined,
+  page: currentPage,
+  pageSize,
+  coverSize: {
+    width: 600,
+    height: 400,
+  },
+});
+// Создание объекта пагинации
+const pagination = rxPage.postsPagination(Astro.props);
+const breadcrumbItems = rxPage.postListBreadcrumbs(undefined, "Главная", "Блог");
+const meta = (await rx.getPageByType(PageType.PostList))?.meta;---
+
+<Layout>
+  <Meta title="Блог" slot="meta" content={meta} />
+  <Header />
+  <Breadcrumb items={breadcrumbItems} title="Блог" />
+  <section class="m-h-20 w-full z-10">
+    <div class="container">
+      <div
+        id="blog-posts-list"
+        class="mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 gap-8"
+      >
+        {
+          posts?.map((post) => (
+            <PostCard post={post} detailTitle="Читать статью" />
+          ))
+        }
+      </div>
+      <Pagination pagination={pagination} />
+    </div>
+  </section>
+  <CtaBlock />
+  <Footer />
+  <MiniFloat />
+  <Globals />
+</Layout>
+
+<script>
+  import { pageLoader } from "@rxdrag/website-lib-core";
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  // Регистрация плагина ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initBlogPostsAnimations() {
+    // Получение карточек статей
+    const postCards = document.querySelectorAll("#blog-posts-list article");
+
+    if (postCards.length === 0) {
+      return;
+    }
+
+    // Немедленная установка начального состояния, чтобы избежать мерцания
+    gsap.set(postCards, {
+      y: 80,
+      opacity: 0,
+      scale: 0.95,
+      immediateRender: true,
+    });
+
+    // Группировка статей по строкам (по 2 в строке)
+    const cardsPerRow = 2;
+    const rows = [];
+
+    for (let i = 0; i < postCards.length; i += cardsPerRow) {
+      const rowCards = Array.from(postCards).slice(i, i + cardsPerRow);
+      rows.push(rowCards);
+    }
+
+    // Создание анимации для каждой строки
+    rows.forEach((rowCards, rowIndex) => {
+      if (rowCards.length === 0) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: rowCards[0],
+          start: "top 90%", // Более раннее срабатывание, чтобы избежать мерцания
+          end: "bottom 10%",
+          toggleActions: "play none none reverse",
+          markers: false,
+        },
+      });
+
+      // Добавление анимации для каждой карточки в этой строке
+      tl.to(
+        rowCards,
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          stagger: 0.15, // Временной сдвиг внутри одной строки
+        },
+        0
+      ); // Все анимации начинаются одновременно
+    });
+
+    // Добавление глобальной анимации контейнера для легкого эффекта входа всего списка
+    const container = document.querySelector("#blog-posts-list");
+    if (container) {
+      gsap.set(container, {
+        opacity: 0,
+        y: 20,
+        immediateRender: true,
+      });
+
+      gsap.to(container, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        delay: 0.1, // Уменьшенная задержка
+      });
+    }
+  }
+
+  // Немедленная инициализация анимации без ожидания pageLoader
+  initBlogPostsAnimations();
+
+  // Сохранение инициализации pageLoader на всякий случай
+  pageLoader.onLoaded(() => {
+    console.log("Инициализация анимации списка статей");
+    setTimeout(() => {
+      initBlogPostsAnimations();
+    }, 100); // Уменьшенная задержка
+  });
+</script>

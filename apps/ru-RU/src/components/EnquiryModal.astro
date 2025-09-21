@@ -1,0 +1,94 @@
+---
+import { FORM_SALT } from "theme";
+import { Modal, ModalCloser, ModalPanel } from "@rxdrag/website-lib";
+import { Icon, ContactForm } from "@rxdrag/website-lib-core";
+interface Props {
+  title?: string;
+}
+const { title } = Astro.props;---
+
+<Modal openableKey="enquiry-modal">
+  <ModalCloser
+    class:list={[
+      "fixed inset-0 bg-black/30 backdrop-blur-md z-30",
+      "opacity-0 pointer-events-none open:pointer-events-auto",
+    ]}
+    whileOpenable={{
+      open: {
+        to: {
+          opacity: 1,
+          display: "block",
+        },
+      },
+      close: {
+        to: {
+          opacity: 0,
+          display: "none",
+        },
+      },
+    }}
+  />
+  <ModalPanel
+    class:list={[
+      "fixed min-h-20 left-1/2 top-1/2 max-w-2xl space-y-4 bg-white pb-4 pt-2 px-8 rounded-lg w-full overflow-hidden z-50",
+      "pointer-events-none open:pointer-events-auto",
+      "transform -translate-y-1/2 -translate-x-1/2 opacity-0",
+    ]}
+    whileOpenable={{
+      initial: {
+        opacity: 0,
+        scale: 0.5,
+        y: 300,
+      },
+      open: {
+        to: {
+          opacity: 1,
+          scale: 1,
+          y: 0,
+        },
+        duration: 0.3,
+        ease: "easeOut",
+      },
+      close: {
+        to: {
+          opacity: 0,
+          scale: 0.5,
+          y: 300,
+        },
+        duration: 0.15,
+        ease: "easeIn",
+      },
+    }}
+  >
+    <div class="relative isolate px-6 pointer-events-none">
+
+    </div>
+    <ModalCloser
+      class:list={[
+        "absolute right-4 top-0 rounded-md text-gray-400",
+        "hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2",
+        "cursor-pointer p-2 tranform translate-x-1",
+      ]}
+    >
+      <Icon client:load icon="iconoir:cancel" className="size-6" />
+    </ModalCloser>
+    <h2 class="text-2xl font-bold">{title || "Добро пожаловать в контакт"}</h2>
+    <ContactForm
+      client:load
+      formSalt={FORM_SALT}
+      labels={{
+        name: "Ваше имя",
+        email: "Электронная почта",
+        mobile: "Телефон или WhatsApp",
+        company: "Компания",
+        message: "Сообщение",
+        submit: "Отправить сообщение",
+      }}
+      submitAlign="right"
+      classNames={{
+        submit: "btn-primary font-mono uppercase",
+        container: "gap-y-4 w-full",
+      }}
+    />
+  </ModalPanel>
+</Modal>

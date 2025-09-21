@@ -1,0 +1,184 @@
+---
+import { Icon } from "@rxdrag/website-lib-core";
+import BlockTitle from "@/components/BlockTitle.astro";
+
+const processSteps = [
+  {
+    step: "01",
+    title: "需求分析",
+    description: "详细了解客户的产品规格、性能要求和应用环境",
+    icon: "lucide:users",
+  },
+  {
+    step: "02",
+    title: "技术方案",
+    description: "制定最优的解决方案和生产工艺流程",
+    icon: "lucide:settings",
+  },
+  {
+    step: "03",
+    title: "样品制作",
+    description: "制作样品进行测试验证，确保满足质量要求",
+    icon: "lucide:wrench",
+  },
+  {
+    step: "04",
+    title: "批量生产",
+    description: "严格按照工艺标准进行大规模生产制造",
+    icon: "lucide:factory",
+  },
+  {
+    step: "05",
+    title: "质量检验",
+    description: "全面的质量检测和性能验证，确保产品合格",
+    icon: "lucide:shield",
+  },
+  {
+    step: "06",
+    title: "交付服务",
+    description: "及时交付产品并提供完善的售后技术支持",
+    icon: "lucide:globe",
+  },
+];---
+
+<!-- Process Steps -->
+<section class="py-20 bg-white mt-24">
+  <div class="container">
+    <BlockTitle
+      title="服务流程"
+      sub_title="标准化的服务流程，确保项目顺利进行"
+    />
+    <div class="relative">
+      <!-- Connecting line -->
+      <div
+        class="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 connecting-line"
+        style={{ transform: "translateY(-50%)" }}
+      >
+      </div>
+
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 relative mt-12"
+      >
+        {
+          processSteps.map((step, index) => (
+            <div
+              class="flex flex-col items-center text-center group flow-step"
+              data-step={index}
+            >
+              <div class="relative mb-4">
+                <div class="flex items-center justify-center w-24 h-24 bg-blue-100 rounded-full border-4 border-white shadow-md step-icon">
+                  <Icon
+                    icon={step.icon}
+                    className="h-10 w-10 text-primary"
+                    client:load
+                  />
+                </div>
+                <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center w-10 h-10 bg-primary rounded-full text-white font-bold text-lg border-4 border-white step-number">
+                  {step.step}
+                </div>
+              </div>
+              <h3 class="text-lg font-semibold mb-2 step-title">
+                {step.title}
+              </h3>
+              <p class="text-gray-600 text-sm step-desc">{step.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { pageLoader } from "@rxdrag/website-lib-core";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initFlowAnimations() {
+    // 查找流程步骤元素
+    const flowSteps = document.querySelectorAll(".flow-step");
+    const connectingLine = document.querySelector(".connecting-line");
+    const container = document.querySelector(
+      ".grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-6"
+    );
+
+    if (!flowSteps.length || !container) return;
+
+    // 设置初始状态
+    gsap.set(flowSteps, {
+      opacity: 0,
+      y: 50,
+      scale: 0.8,
+    });
+
+    if (connectingLine) {
+      gsap.set(connectingLine, {
+        scaleX: 0,
+        transformOrigin: "left center",
+      });
+    }
+
+    // 创建动画时间线
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: "top 80%",
+        toggleActions: "play none none reverse",
+      },
+    });
+
+    // 连接线动画
+    if (connectingLine) {
+      tl.to(connectingLine, {
+        scaleX: 1,
+        duration: 1.2,
+        ease: "power2.out",
+      });
+    }
+
+    // 流程步骤交错动画
+    tl.to(
+      flowSteps,
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        ease: "back.out(1.2)",
+        stagger: 0.15,
+      },
+      "-=0.8"
+    );
+
+    // 为每个步骤添加悬停增强效果
+    flowSteps.forEach((step) => {
+      const icon = step.querySelector(".step-icon");
+      const number = step.querySelector(".step-number");
+
+      if (icon && number) {
+        step.addEventListener("mouseenter", () => {
+          gsap.to([icon, number], {
+            scale: 1.1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        step.addEventListener("mouseleave", () => {
+          gsap.to([icon, number], {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      }
+    });
+  }
+
+  // 初始化动画
+  pageLoader.onLoaded(() => {
+    setTimeout(initFlowAnimations, 100);
+  });
+</script>

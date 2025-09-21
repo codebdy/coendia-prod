@@ -1,0 +1,238 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { rx } from "theme";
+import { rxPage } from "@rxdrag/website-lib-core";
+import { Meta } from "@rxdrag/website-lib";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import CtaBlock from "@/components/CtaBlock.astro";
+import Footer from "@/components/Footer.astro";
+import MiniFloat from "@/components/MiniFloat.astro";
+import Globals from "@/components/Globals.astro";
+// Генерация хлебных крошек
+const breadcrumbs = rxPage.breadcrumbs("Technical", "Home");
+const meta = (await rx.getPageBySlug("service"))?.meta;
+// Извлечение данных карточек технологических процессов
+const technologyCards = [
+  {
+    title: "Высокоточная лазерная резка",
+    description: `Высокоточная резка труб диаметром φ0.3–φ15 мм; точность резки ±0.02 мм, сложные разрезы могут быть точно реализованы. Качественный лазерный источник и стабильная передача обеспечивают надежную непрерывную работу.`,
+    badges: ["φ0.3–φ15 мм", "±0.02 мм", "Непрерывная стабильность"],
+    tag: "±0.02 мм",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/d3fb0ab1-a916-4f0e-b08c-6046abf2efdd.jpg",
+  },
+  {
+    title: "Клепка змеевидной кости эндоскопа",
+    description: `Автоматизированная высокоточная клепка, минимальный размер змеевидной кости до φ1.8 мм; точность клепки ≤ ±0.02 мм, прочное соединение и гибкость движений.`,
+    badges: ["Минимальный φ1.8 мм", "±0.02 мм", "Автоматизация"],
+    tag: "±0.02 мм",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/9760c5d2-2a8a-4464-86c9-d1b4a0a7ddfb.jpg",
+  },
+  {
+    title: "Сварка змеевидной кости эндоскопа",
+    description: `Точная сварка, минимальный диаметр сварочной точки 0.1 мм; защита инертным газом, предотвращает окисление. Протестировано на высокие/низкие температуры и вибрацию, без трещин и отслоений, отличная надежность.`,
+    badges: ["Диаметр точки 0.1 мм", "Инертная защита", "Проверка на средовые нагрузки"],
+    tag: "Диаметр точки ≥0.1 мм",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/54993837-9375-4321-8579-202d9dad329f.jpg",
+  },
+  {
+    title: "Сварка миниатюрных камер",
+    description: `Высокоточная сварка с использованием собственного автоматизированного оборудования, отклонение соединения камеры и PCB ≤0.01 мм; лазерная сварка с малым тепловым воздействием, качество контролируется в реальном времени с помощью распознавания изображений.`,
+    badges: ["≤0.01 мм", "Лазерная сварка", "Визуальный мониторинг"],
+    tag: "Отклонение ≤0.01 мм",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/eb46c5bd-6b69-4501-8ce8-a9005ac8a5fb.jpg",
+  },
+  {
+    title: "Чистое прецизионное литье под давлением",
+    description: `Обладает возможностями проектирования и производства; передовые технологии литья под давлением и изготовления пресс-форм, гладкая поверхность без пузырей/усадки; автоматическая подача, извлечение и контроль, высокая эффективность и стабильное качество.`,
+    badges: ["Автоматизация", "Отличный внешний вид", "Последовательность"],
+    tag: "+0.5℃",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/fc989135-fa1f-4c0e-abf5-57c5c96b6fbd.jpg",
+  },
+  {
+    title: "Экструзия с покрытием труб",
+    description: `Точная экструзия с покрытием труб диаметром φ0.5–φ15 мм, толщина покрытия 0.05–0.5 мм; используются высокоточные экструзионные головки и система контроля температуры, обеспечивающая равномерное и плотное покрытие с высокой адгезией.`,
+    badges: ["φ0.5–φ15 мм", "0.05–0.5 мм", "Высокая адгезия"],
+    tag: "φ0.5–φ15 мм",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/801eb263-be36-42bd-812f-83206cde7c31.jpg",
+  },
+  {
+    title: "Полный процесс контроля",
+    description: `Комплексная система контроля, охватывающая сырье, процесс производства и готовую продукцию; оснащена высокоточными измерительными приборами и автоматическим контрольным оборудованием, обеспечивает контроль качества на каждом этапе и отслеживаемость данных.`,
+    badges: ["Контроль сырья", "Управление процессом", "Финальный контроль"],
+    tag: "100% контроль",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/7ed3d216-6b09-47c8-875c-8636f26a45ab.jpg",
+  },
+  {
+    title: "Дизайн эндоскопов",
+    description: `Сосредоточен на базовых технологиях эндоскопов, владеет полной технологической цепочкой; учитывает клинические сценарии использования, заранее выявляет и устраняет риски проектирования.`,
+    badges: ["Базовые технологии", "Замкнутый цикл процессов", "Клиническая ориентация"],
+    tag: "Предварительное устранение рисков",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/41bafb77-f10b-439c-ad0c-80d0603c6bf8.jpg",
+  },
+  {
+    title: "Собственное оборудование",
+    description: `Собственная разработка оборудования для лазерной резки, сварки камер, визуального контроля, испытаний на усталость и долговечность, что гарантирует качество и производительность.`,
+    badges: ["Автоматизация", "Индивидуальные линии", "Повышение эффективности"],
+    tag: "Собственная разработка оборудования",
+    img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/e04b8a49-043d-4871-a33b-67a1bfe91ec7.jpg",
+  },
+];---
+
+<Layout>
+  <Meta slot="meta" content={meta} />
+  <Header />
+  <Breadcrumb items={breadcrumbs} title="Технические возможности" bgUrl="/images/breadcrumb-bg-3.jpg" />
+  <section class="w-full mt-24">
+    <div class="container flex flex-col gap-6">
+      <h2 class="block-title">
+        Ключевые технологические возможности
+      </h2>
+      <p class="block-subtitle">
+        Точное мастерство для медицинского превосходства
+      </p>
+      <div class="mt-8 grid gap-16 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 tech-cards-grid">
+{
+          technologyCards.map((card, index) => (<article class="card group rounded-lg bg-white shadow-sm ring-1 ring-slate-200 overflow-hidden tech-card" data-index={index}>
+          <div class="relative aspect-[4/3] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center overflow-hidden tech-card-image">
+          <img class="absolute inset-0 w-full h-full object-cover object-center" src={card.img} alt={card.title} />
+          <span class="absolute right-3 top-3 rounded-full bg-black/15 backdrop-blur px-2 py-1 text-xs text-white tech-card-tag">
+          {card.tag}
+          </span>
+          </div>
+          <div class="p-5 tech-card-content">
+          <h3 class="font-semibold text-slate-900 tech-card-title">
+          {card.title}
+          </h3>
+          <p class="mt-1 text-sm text-slate-600 tech-card-desc">
+          {card.description}
+          </p>
+          <div class="mt-3 flex flex-wrap gap-2 tech-card-badges">
+          {
+          card.badges.map((badge) => (<span class="text-xs font-medium border border-primary-200 text-gray-600 px-4 py-1 rounded-full">
+          {badge}
+          </span>))
+          }
+          </div>
+          </div>
+          </article>))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+<CtaBlock />
+<Footer />
+<MiniFloat />
+<Globals />
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { pageLoader } from "@rxdrag/website-lib-core";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initTechAnimations() {
+    // Поиск элементов технологических карточек
+    const techCards = document.querySelectorAll(".tech-card");
+    const techGrid = document.querySelector(".tech-cards-grid");
+
+    if (!techCards.length || !techGrid) return;
+
+    // Установка начального состояния
+    gsap.set(techCards, {
+      opacity: 0,
+      y: 80,
+      scale: 0.95,
+    });
+
+    // Расчет количества карточек в ряду в зависимости от адаптивного макета
+    const getCardsPerRow = () => {
+      const screenWidth = window.innerWidth;
+      if (screenWidth >= 1024) return 3; // lg:grid-cols-3
+      if (screenWidth >= 768) return 2;  // md:grid-cols-2
+      return 1; // grid-cols-1
+    };
+
+    // Группировка карточек по рядам и создание отдельных анимаций для каждого ряда
+    const cardsPerRow = getCardsPerRow();
+    const totalRows = Math.ceil(techCards.length / cardsPerRow);
+
+    for (let row = 0; row < totalRows; row++) {
+      const startIndex = row * cardsPerRow;
+      const endIndex = Math.min(startIndex + cardsPerRow, techCards.length);
+      const rowCards = Array.from(techCards).slice(startIndex, endIndex);
+
+      if (rowCards.length > 0) {
+        // Создание отдельного ScrollTrigger для каждого ряда
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: rowCards[0],
+              start: "top 100%",
+              toggleActions: "play none none reverse",
+            },
+          })
+          .to(rowCards, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            ease: "power2.out",
+            stagger: 0.15,
+          });
+      }
+    }
+
+    // Добавление эффектов наведения для каждой карточки
+    techCards.forEach((card) => {
+      const cardImage = card.querySelector(".tech-card-image");
+      const cardTag = card.querySelector(".tech-card-tag");
+      const cardContent = card.querySelector(".tech-card-content");
+
+      if (cardImage && cardTag && cardContent) {
+        card.addEventListener("mouseenter", () => {
+          gsap.to(cardImage, {
+            scale: 1.05,
+            duration: 0.4,
+            ease: "power2.out",
+          });
+          gsap.to(cardTag, {
+            scale: 1.1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+          gsap.to(cardContent, {
+            y: -5,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        card.addEventListener("mouseleave", () => {
+          gsap.to(cardImage, {
+            scale: 1,
+            duration: 0.4,
+            ease: "power2.out",
+          });
+          gsap.to(cardTag, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+          gsap.to(cardContent, {
+            y: 0,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      }
+    });
+  }
+
+  // Инициализация анимаций
+  pageLoader.onLoaded(() => {
+    setTimeout(initTechAnimations, 100);
+  });
+</script>

@@ -1,0 +1,88 @@
+---
+import { type TProductCategory } from "@rxdrag/website-lib-core";
+import { ProductCategoryQueryOptions, ProductCategoryFields, MediaQueryOptions } from "@rxdrag/rxcms-models";
+import { rx } from "theme";
+import BlockTitle from "@/components/BlockTitle.astro";
+import SolutionCategoryCard from "@/components/SolutionCategoryCard.astro";
+const categories = (
+  await rx.queryEntityList(
+    new ProductCategoryQueryOptions(
+      [
+        ProductCategoryFields.id,
+        ProductCategoryFields.name,
+        ProductCategoryFields.slug,
+      ],
+      {
+        where: {
+          lang: {
+            abbr: {
+              _eq: rx.getLang(),
+            },
+          },
+        },
+        orderBy: [{ seqValue: "asc" }],
+      }
+    ).media(new MediaQueryOptions().file(["url", "thumbnail"]))
+  )
+)?.items as TProductCategory[] | undefined;---
+
+<section>
+  <div class="container article">
+    <BlockTitle
+      title="加工解决方案"
+      sub_title="医用内窥镜组件精密激光加工"
+    />
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      {
+        categories?.map((category, idx) => (
+          <div data-feature-idx={idx}>
+            <SolutionCategoryCard category={category} />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import { pageLoader } from "@rxdrag/website-lib-core";
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  // 注册 ScrollTrigger 插件
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initCategoriesAnimations() {
+    const productCards = document.querySelectorAll("[data-feature-idx]");
+
+    // 设置初始状态
+    gsap.set(productCards, {
+      y: 100,
+      opacity: 0,
+    });
+
+    if (productCards.length > 0) {
+      // 所有产品卡片使用同一个时间轴
+      const tl1 = gsap.timeline({
+        scrollTrigger: {
+          trigger: productCards[0],
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      tl1.to(productCards, {
+        y: 0,
+        opacity: 1,
+        duration: 1.0,
+        ease: "power3.out",
+        stagger: 0.4,
+      });
+    }
+  }
+  pageLoader.onLoaded(() => {
+    setTimeout(() => {
+      initCategoriesAnimations();
+    }, 300);
+  });
+</script>

@@ -1,0 +1,183 @@
+---
+import { Icon } from "@rxdrag/website-lib-core";
+import BlockTitle from "@/components/BlockTitle.astro";
+const processSteps = [
+  {
+    step: "01",
+    title: "Анализ требований",
+    description: "Подробное изучение спецификаций продукта, требований к производительности и условий применения клиента",
+    icon: "lucide:users",
+  },
+  {
+    step: "02",
+    title: "Техническое решение",
+    description: "Разработка оптимального решения и производственного процесса",
+    icon: "lucide:settings",
+  },
+  {
+    step: "03",
+    title: "Изготовление образцов",
+    description: "Создание образцов для тестирования и проверки соответствия требованиям качества",
+    icon: "lucide:wrench",
+  },
+  {
+    step: "04",
+    title: "Серийное производство",
+    description: "Крупномасштабное производство в строгом соответствии со стандартами технологии",
+    icon: "lucide:factory",
+  },
+  {
+    step: "05",
+    title: "Контроль качества",
+    description: "Всесторонняя проверка качества и производительности для обеспечения соответствия продукции",
+    icon: "lucide:shield",
+  },
+  {
+    step: "06",
+    title: "Доставка и обслуживание",
+    description: "Своевременная поставка продукции и предоставление полной технической поддержки после продажи",
+    icon: "lucide:globe",
+  },
+];---
+
+<!-- Process Steps -->
+<section class="py-20 bg-white mt-24">
+  <div class="container">
+    <BlockTitle
+      title="Процесс обслуживания"
+      sub_title="Стандартизированный процесс обслуживания для обеспечения бесперебойного выполнения проекта"
+    />
+    <div class="relative">
+      <!-- Connecting line -->
+      <div
+        class="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 connecting-line"
+        style={{ transform: "translateY(-50%)" }}
+      >
+      </div>
+
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 relative mt-12"
+      >
+        {
+          processSteps.map((step, index) => (
+            <div
+              class="flex flex-col items-center text-center group flow-step"
+              data-step={index}
+            >
+              <div class="relative mb-4">
+                <div class="flex items-center justify-center w-24 h-24 bg-blue-100 rounded-full border-4 border-white shadow-md step-icon">
+                  <Icon
+                    icon={step.icon}
+                    className="h-10 w-10 text-primary"
+                    client:load
+                  />
+                </div>
+                <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center w-10 h-10 bg-primary rounded-full text-white font-bold text-lg border-4 border-white step-number">
+                  {step.step}
+                </div>
+              </div>
+              <h3 class="text-lg font-semibold mb-2 step-title">
+                {step.title}
+              </h3>
+              <p class="text-gray-600 text-sm step-desc">{step.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { pageLoader } from "@rxdrag/website-lib-core";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initFlowAnimations() {
+    // Поиск элементов этапов процесса
+    const flowSteps = document.querySelectorAll(".flow-step");
+    const connectingLine = document.querySelector(".connecting-line");
+    const container = document.querySelector(
+      ".grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-6"
+    );
+
+    if (!flowSteps.length || !container) return;
+
+    // Установка начального состояния
+    gsap.set(flowSteps, {
+      opacity: 0,
+      y: 50,
+      scale: 0.8,
+    });
+
+    if (connectingLine) {
+      gsap.set(connectingLine, {
+        scaleX: 0,
+        transformOrigin: "left center",
+      });
+    }
+
+    // Создание временной линии анимации
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: "top 80%",
+        toggleActions: "play none none reverse",
+      },
+    });
+
+    // Анимация соединительной линии
+    if (connectingLine) {
+      tl.to(connectingLine, {
+        scaleX: 1,
+        duration: 1.2,
+        ease: "power2.out",
+      });
+    }
+
+    // Шаговые анимации процесса
+    tl.to(
+      flowSteps,
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        ease: "back.out(1.2)",
+        stagger: 0.15,
+      },
+      "-=0.8"
+    );
+
+    // Добавление эффекта наведения для каждого этапа
+    flowSteps.forEach((step) => {
+      const icon = step.querySelector(".step-icon");
+      const number = step.querySelector(".step-number");
+
+      if (icon && number) {
+        step.addEventListener("mouseenter", () => {
+          gsap.to([icon, number], {
+            scale: 1.1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        step.addEventListener("mouseleave", () => {
+          gsap.to([icon, number], {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      }
+    });
+  }
+
+  // Инициализация анимации
+  pageLoader.onLoaded(() => {
+    setTimeout(initFlowAnimations, 100);
+  });
+</script>

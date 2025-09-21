@@ -1,0 +1,79 @@
+---
+import { PageType } from "@rxdrag/rxcms-models";
+import Layout from "@/layouts/Layout.astro";
+import { rx } from "theme";
+import { rxPage } from "@rxdrag/website-lib-core";
+import { Meta, Link } from "@rxdrag/website-lib";
+import { SearchInput } from "@rxdrag/website-lib-core";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import CtaBlock from "@/components/CtaBlock.astro";
+import Footer from "@/components/Footer.astro";
+import Globals from "@/components/Globals.astro";
+// Отключить предварительный рендеринг, использовать серверный рендеринг
+export const prerender = false;
+// Попробовать различные способы получения параметров запроса
+let query = "";
+const url = new URL(Astro.request.url);
+query = url.searchParams.get("q") || "";
+// Декодировать параметры URL
+const decodedQuery = query ? decodeURIComponent(query) : "";
+const items = await rx.fulltextSearch(decodedQuery, undefined);
+const breadcrumbs = rxPage.breadcrumbs("Результаты поиска", "Главная");
+const meta = (await rx.getPageByType(PageType.SearchList))?.meta;---
+
+<Layout>
+  <Meta title="Результаты поиска" slot="meta" content={meta} />
+  <Header />
+  <Breadcrumb
+    items={breadcrumbs}
+    title="Результаты поиска"
+  />
+  <section class="container w-full mt-8">
+    <div class="max-w-4xl">
+      <form method="get" action="/search" class="flex items-center gap-2">
+        <SearchInput
+          name="q"
+          value={decodedQuery}
+          className="block w-full px-2 rounded-md outline-none border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-sky-600 sm:text-sm sm:leading-6"
+          placeholder="Поиск..."
+        />
+        <button
+          type="submit"
+          class="btn btn-secondary btn-lg flex items-center gap-2"
+        >
+          Поиск
+        </button>
+      </form>
+      <div class="flex flex-col mt-8 gap-4 text-sm">
+        {
+          items?.items?.map((item) => (
+            <div class="flex items-start gap-4">
+              <img
+                class="w-32 h-32 object-cover rounded"
+                src={
+                  item.media?.file?.resize || item.media?.file?.thumbnail || ""
+                }
+                alt={item.title}
+              />
+              <Link
+                type={item.sourceType}
+                to={item.sourceSlug}
+                class="flex flex-col gap-2"
+              >
+                <h3 class="text-lg font-bold hover:text-sky-600">
+                  {item.title}
+                </h3>
+                <p class="text-gray-600 hover:text-sky-600">{item.summary}</p>
+              </Link>
+            </div>
+          )) || []
+        }
+        {!items?.total && <p>Ничего не найдено</p>}
+      </div>
+    </div>
+  </section>
+  <CtaBlock />
+  <Footer />
+  <Globals />
+</Layout>

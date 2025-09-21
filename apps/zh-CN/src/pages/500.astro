@@ -1,0 +1,47 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Meta, Link } from "@rxdrag/website-lib";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import IconRight from "@/components/IconRight.astro";
+import CtaBlock from "@/components/CtaBlock.astro";
+import Footer from "@/components/Footer.astro";
+import Globals from "@/components/Globals.astro";
+---
+
+<Layout>
+  <Header />
+  <Meta title="500 - 服务器错误" slot="meta" />
+  <Breadcrumb separator="/" />
+  <div class="container mt-36 mx-auto px-4 py-16">
+    <div class="max-w-4xl mx-auto py-0 md:py-12 lg:24 xl:36">
+      <div class="flex flex-col md:flex-row items-center space-x-8">
+        <img src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/aa0c8ac7-a405-484a-804a-c7d9accda7f0.png" alt="错误图标" class="size-64" />
+        <div class="flex flex-col items-start gap-8">
+          <h1 class="text-4xl font-bold text-gray-900 tracking-tight text-left">
+            服务器错误
+          </h1>
+          <p class="text-base text-foreground-secondary max-w-lg text-left leading-relaxed">
+            抱歉，我们的服务器遇到了问题。技术团队已收到通知，正在努力解决。
+          </p>
+          <Link to="/" class="text-primary font-semibold flex gap-2 items-center">
+            返回首页
+            <IconRight class="size-6" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  </div>
+  <CtaBlock />
+  <Footer />
+  <Globals />
+</Layout>
+
+<script>
+  // Log error information
+  document.addEventListener("DOMContentLoaded", () => {
+    console.error(
+      "页面加载时发生错误，用户已被重定向至500错误页面",
+    );
+  });
+</script>

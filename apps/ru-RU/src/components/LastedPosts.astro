@@ -1,0 +1,114 @@
+---
+import { rx } from "theme";
+import { Motion } from "@rxdrag/website-lib";
+import BlockTitle from "@/components/BlockTitle.astro";
+import PostCard from "@/components/PostCard.astro";
+interface Props {
+  title?: string;
+  subtitle?: string;
+  detailTitle?: string;
+  count?: number;
+  coverSize?: TSize;
+}
+const {
+  title = "Последние статьи",
+  subtitle,
+  detailTitle,
+  count = 4,
+  coverSize = { width: 600, height: 400 },
+} = Astro.props;
+const posts = await rx.getLatestPosts(count, coverSize);---
+
+<section class="m-h-20 w-full mt-16 xl:mt-36">
+  <div class="container">
+    <Motion
+      class="flex justify-center flex-col items-center gap-6"
+      whileInView="fade-up"
+    >
+      <BlockTitle title={title} sub_title={subtitle} />
+     
+    </Motion>
+    <Motion
+      id="lasted-posts"
+      class="mx-auto mt-10 lg:mt-16 grid grid-cols-1 md:grid-cols-2 gap-8"
+      whileInView="fade-up"
+    >
+      {posts?.map((post) => <PostCard post={post} detailTitle={detailTitle} />)}
+    </Motion>
+  </div>
+</section>
+
+<script>
+  import { pageLoader } from "@rxdrag/website-lib-core";
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  // 注册 ScrollTrigger 插件
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initLastedPostsAnimations() {
+    console.log("Инициализация анимации LastedPosts");
+
+    // 获取文章卡片
+    const postCards = document.querySelectorAll("#lasted-posts article");
+
+    // 设置初始状态
+    gsap.set(postCards, {
+      y: 100,
+      opacity: 0,
+    });
+
+    // 分别处理第一行和第二行
+    const firstRowCards = Array.from(postCards).slice(0, 2);
+    const secondRowCards = Array.from(postCards).slice(2, 4);
+
+    // 第一行动画
+    if (firstRowCards.length > 0) {
+      const tl1 = gsap.timeline({
+        scrollTrigger: {
+          trigger: firstRowCards[0],
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      tl1.to(firstRowCards, {
+        y: 0,
+        opacity: 1,
+        duration: 1.0,
+        ease: "power3.out",
+        stagger: 0.2,
+      });
+    }
+
+    // 第二行动画
+    if (secondRowCards.length > 0) {
+      const tl2 = gsap.timeline({
+        scrollTrigger: {
+          trigger: secondRowCards[0],
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      tl2.to(secondRowCards, {
+        y: 0,
+        opacity: 1,
+        duration: 1.0,
+        ease: "power3.out",
+        stagger: 0.2,
+      });
+    }
+
+    console.log("Анимация LastedPosts инициализирована", {
+      firstRow: firstRowCards.length,
+      secondRow: secondRowCards.length,
+    });
+  }
+
+  pageLoader.onLoaded(() => {
+    setTimeout(() => {
+      initLastedPostsAnimations();
+    }, 300);
+  });
+</script>

@@ -1,0 +1,129 @@
+---
+import { type TProductCategory } from "@rxdrag/website-lib-core";
+import { rxPage } from "@rxdrag/website-lib-core";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import ProductCard from "@/components/ProductCard.astro";
+import Pagination from "@/components/Pagination.astro";
+import ProductCategries from "@/components/ProductCategries.astro";
+
+interface Props {
+  breadcrumbItems?: TBreadcrumbItem[];
+  products?: TProduct[];
+  pagination?: PaginationData;
+  category?: TProductCategory;
+}
+const { products, pagination, category: propCategory } = Astro.props;
+const breadcrumbItems = rxPage.productListBreadcrumbs(
+  propCategory,
+  "Home",
+  "Solutions"
+);---
+
+<Header />
+<Breadcrumb items={breadcrumbItems} title={propCategory?.name || "Solutions"} />
+<section class="container mt-4 flex gap-16">
+  <div class="flex-1 space-y-8 mt-8">
+    <div
+      class="self-center grid grid-cols-1 md:grid-cols-3 gap-4"
+      id="solutions-list"
+    >
+      {products?.map((product) => <ProductCard product={product} />)}
+    </div>
+    {pagination && <Pagination pagination={pagination} />}
+  </div>
+  <ProductCategries activeSlug={propCategory?.slug} />
+</section>
+
+<script>
+  import { pageLoader } from "@rxdrag/website-lib-core";
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  // 注册 ScrollTrigger 插件
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initSolutionsAnimations() {
+    // 获取文章卡片
+    const postCards = document.querySelectorAll("#solutions-list article");
+
+    if (postCards.length === 0) {
+      return;
+    }
+
+    // 立即设置初始状态，避免闪烁
+    gsap.set(postCards, {
+      y: 80,
+      opacity: 0,
+      scale: 0.95,
+      immediateRender: true,
+    });
+
+    // 按行分组文章（每行2个）
+    const cardsPerRow = 2;
+    const rows = [];
+
+    for (let i = 0; i < postCards.length; i += cardsPerRow) {
+      const rowCards = Array.from(postCards).slice(i, i + cardsPerRow);
+      rows.push(rowCards);
+    }
+
+    // 为每一行创建动画
+    rows.forEach((rowCards) => {
+      if (rowCards.length === 0) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: rowCards[0],
+          start: "top 90%", // 更早触发，避免闪烁
+          end: "bottom 10%",
+          toggleActions: "play none none reverse",
+          markers: false,
+        },
+      });
+
+      // 为这一行的每个卡片添加动画
+      tl.to(
+        rowCards,
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          stagger: 0.15, // 同一行内的错开时间
+        },
+        0
+      ); // 所有动画同时开始
+    });
+
+    // 添加一个全局的容器动画，让整个列表有轻微的入场效果
+    const container = document.querySelector("#blog-posts-list");
+    if (container) {
+      gsap.set(container, {
+        opacity: 0,
+        y: 20,
+        immediateRender: true,
+      });
+
+      gsap.to(container, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        delay: 0.1, // 减少延迟
+      });
+    }
+  }
+
+  // 立即初始化动画，不等待pageLoader
+  initSolutionsAnimations();
+
+  // 同时保留pageLoader的初始化，以防万一
+  pageLoader.onLoaded(() => {
+    console.log("产品列表动画初始化");
+    setTimeout(() => {
+      initSolutionsAnimations();
+    }, 100); // 减少延迟
+  });
+</script>

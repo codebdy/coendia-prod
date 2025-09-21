@@ -1,0 +1,148 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { rxPage } from "@rxdrag/website-lib-core";
+import { rx } from "theme";
+import { Meta } from "@rxdrag/website-lib";
+import { Icon } from "@rxdrag/website-lib-core";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import AboutBlock from "@/components/AboutBlock.astro";
+import BlockTitle from "@/components/BlockTitle.astro";
+import CtaBlock from "@/components/CtaBlock.astro";
+import Footer from "@/components/Footer.astro";
+import MiniFloat from "@/components/MiniFloat.astro";
+import Globals from "@/components/Globals.astro";
+// 生成面包屑
+const breadcrumbs = rxPage.breadcrumbs("About", "Home");
+const serviceAdvantages = [
+  {
+    title: "Техническое лидерство",
+    description: "Исследовательские возможности и высокоточное оборудование помогают воплотить каждую вашу идею",
+    icon: "lucide:award",
+  },
+  {
+    title: "Индивидуальные услуги",
+    description: "Поддержка обработки по предоставленным чертежам, предоставление персонализированных решений и технической поддержки",
+    icon: "lucide:target",
+  },
+  {
+    title: "Гарантия качества",
+    description: "Строгая система управления качеством гарантирует соответствие каждого продукта международным стандартам",
+    icon: "lucide:shield",
+  },
+  {
+    title: "Быстрая поставка",
+    description: "Эффективные производственные процессы и управление цепочкой поставок обеспечивают своевременную доставку",
+    icon: "lucide:clock",
+  },
+];
+const meta = (await rx.getPageBySlug("about"))?.meta;---
+
+<Layout>
+  <Meta slot="meta" content={meta} />
+  <Header />
+  <Breadcrumb items={breadcrumbs} title="About Us" bgUrl="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/405cb6a3-a8f5-4333-b996-b2b88ae8230c.jpg" />
+  <div class="flex flex-col relative mt-20">
+    <section>
+      <AboutBlock noButton={true} />
+    </section>
+  </div>
+  <div class="min-h-screen mt-24">
+    <!--  Service Advantages  -->
+    <section class="py-20 bg-white">
+      <div class="container">
+        <div class="text-center mb-16">
+          <BlockTitle title="Преимущества услуг" sub_title="Мощные исследовательские возможности и возможности цепочки поставок, предоставляющие комплексные решения для всего процесса" />
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 service-advantages-grid">
+{
+            serviceAdvantages.map((advantage, index) => (<div class="text-center p-12 border border-gray-200 rounded-lg service-advantage-card" data-index={index}>
+            <div class="flex justify-center mb-4 advantage-icon">
+            <Icon icon={advantage.icon} className="size-12 text-primary" client:load />
+            </div>
+            <h3 class="text-xl font-semibold mb-2 advantage-title">
+            {advantage.title}
+            </h3>
+            <p class="text-gray-600 advantage-desc">
+            {advantage.description}
+            </p>
+            </div>))
+          }
+        </div>
+      </div>
+    </section>
+    <CtaBlock />
+    <Footer />
+    <MiniFloat />
+    <Globals />
+  </div>
+</Layout>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { pageLoader } from "@rxdrag/website-lib-core";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initAbAnimations() {
+    // 查找服务优势元素
+    const advantageCards = document.querySelectorAll(".service-advantage-card");
+    const advantageGrid = document.querySelector(".service-advantages-grid");
+
+    if (!advantageCards.length || !advantageGrid) return;
+
+    // 设置初始状态
+    gsap.set(advantageCards, {
+      opacity: 0,
+      y: 60,
+      scale: 0.9,
+    });
+
+    // 创建动画时间线
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: advantageGrid,
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      })
+      .to(advantageCards, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.15,
+      });
+
+    // 为每个卡片添加悬停效果
+    advantageCards.forEach((card) => {
+      const icon = card.querySelector(".advantage-icon");
+
+      if (icon) {
+        card.addEventListener("mouseenter", () => {
+          gsap.to(icon, {
+            scale: 1.1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        card.addEventListener("mouseleave", () => {
+          gsap.to(icon, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      }
+    });
+  }
+
+  // 初始化动画
+  pageLoader.onLoaded(() => {
+    setTimeout(initAbAnimations, 100);
+  });
+</script>

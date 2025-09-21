@@ -1,0 +1,97 @@
+---
+import { Motion } from "@rxdrag/website-lib";
+import VideoPlayer from "@/components/VideoPlayer.astro";
+
+interface Props {
+  noButton?: boolean;
+}
+const { noButton = false } = Astro.props;---
+
+<div class="w-full relative">
+  <div class="w-full container grid grid-cols-1 lg:grid-cols-2 min-h-[300px] gap-12">
+    <Motion class="h-full" whileInView="fade-left">
+      <div class="w-full h-full flex items-center justify-center">
+        <VideoPlayer />
+      </div>
+    </Motion>
+    <Motion class="h-full" whileInView="fade-right">
+      <div class="w-full bg-white p-16 shadow-lg flex flex-col gap-4 relative">
+        <h3 class="block-title mt-6 text-left" data-animation-about="fade-up">
+          关于小可
+        </h3>
+        <p class="text-sm text-justify text-foreground-secondary" data-animation-about="fade-up">
+          精准内窥镜解决方案合作伙伴。我们专注于通过先进的微工程和自动化制造重新定义微创手术，提供从核心组件到集成系统的端到端解决方案，超越全球合规标准。
+        </p>
+        <p class="text-sm text-justify text-foreground-secondary" data-animation-about="fade-up">
+          在我们使命的驱动下，致力于普及优质医疗技术，我们赋能合作伙伴部署高价值内窥镜解决方案——扩大全球服务不足社区的覆盖范围。
+        </p>
+        <p class="text-sm text-justify text-foreground-secondary" data-animation-about="fade-up">
+          我们为医疗设备原始设备制造商提供：
+        </p>
+        <ul class="list-disc text-sm text-justify text-foreground-secondary flex flex-col gap-2 pl-5">
+          <li data-animation-about="fade-up">
+            全频谱ODM/OEM能力
+          </li>
+          <li data-animation-about="fade-up">
+            行业领先的性能价值比
+          </li>
+          <li data-animation-about="fade-up">
+            一致的质量保证（通过ISO 13485认证）
+          </li>
+        </ul>
+        <p class="text-sm text-justify text-foreground-secondary" data-animation-about="fade-up">
+          与我们合作，将外科创新转化为全球影响力。
+        </p>
+        <div class="w-full flex justify-start" data-animation-about="fade-up">
+{
+            !noButton &&           <div id="about-button">
+            <a class="btn btn-primary btn-md shadow-sm uppercase" href="/about">
+            了解更多...
+            </a>
+            </div>
+          }
+        </div>
+      </div>
+    </Motion>
+  </div>
+</div>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { pageLoader } from "@rxdrag/website-lib-core";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initAboutAnimations() {
+    // 查找容器和带有data-animation="fade-up"属性的元素
+    const container = document.querySelector(".w-full.container.grid");
+    const fadeUpItems = document.querySelectorAll('[data-animation-about="fade-up"]');
+    if (!container || !fadeUpItems.length) return;
+
+    // 设置初始状态
+    gsap.set(fadeUpItems, { opacity: 0, y: 30 });
+
+    // 使用容器触发，统一控制所有元素动画
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      })
+      .to(fadeUpItems, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.1, // 交错动画
+      });
+  }
+
+  // 初始化动画
+  pageLoader.onLoaded(() => {
+    setTimeout(initAboutAnimations, 100);
+  });
+</script>

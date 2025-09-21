@@ -1,0 +1,133 @@
+---
+import { Motion, ModalTrigger, Link } from "@rxdrag/website-lib";
+import IconEmail from "@/components/IconEmail.astro";
+
+interface Props {
+  title: string;
+  subtitle: string;
+  ctaTitle: string;
+  backgroundImage?: string;
+}
+const { title, subtitle, ctaTitle, backgroundImage } = Astro.props;---
+
+<section class="w-full h-screen flex flex-col min-h-[600px] mt-0 bg-black relative overflow-hidden z-10">
+  <video autoplay={true} loop={true} muted={true} playsinline={true} poster="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/2a74492e-756b-4570-872b-5250eb9b13c1.jpg" class="absolute inset-0 h-full w-full object-cover -z-10" preload="metadata">
+    <source src="https://yizhanfei-videos.oss-accelerate.aliyuncs.com/coendia/hero-m.mp4" type="video/mp4" />
+  </video>
+  <div class:list={[
+      "absolute inset-0 bg-black/50",
+      "flex flex-col justify-center items-center -z-10",
+    ]} />
+  <div class="container flex flex-col justify-center items-center z-0 h-full">
+    <div class="flex-1" />
+    <Motion as="div" animate={{
+        initial: {
+          opacity: 0,
+          y: 200,
+        },
+        to: {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "easeOut",
+        },
+      }} class:list={[
+        "relative w-full mt-24",
+        "flex-1 flex justify-start",
+        "rounded-md shrink-0",
+        "p-10 -mb-10",
+      ]}>
+      <div class="max-w-2xl flex flex-col items-center lg:items-start gap-6 relative">
+        <h2 class:list={[
+            "hero-item !leading-relaxed flex flex-col gap-4 tracking-tight text-white text-center lg:text-left",
+            "text-xl xl:text-4l",
+            "md:text-3xl",
+            "sm:text-2xl",
+            "hero-item-left",
+          ]}>
+          {title}
+        </h2>
+        <p class:list={[
+            "hero-item text-white/80 leading-relaxed",
+            "text-md xl:text-2xl text-center lg:text-left",
+            "lg:text-xl",
+            "md:text-lg",
+            "hero-item-left",
+          ]}>
+          {subtitle}
+        </p>
+        <div class="hero-item-left flex items-center mt-8 gap-4">
+          <ModalTrigger as="button" openableKey="enquiry-modal" class="btn btn-primary btn-lg shadow-sm uppercase" callToAction="Home page Enquiry on hero">
+            <IconEmail class="w-6 h-6 mr-2" />
+            {ctaTitle}
+          </ModalTrigger>
+          <Link type="products" class="btn btn-outlined btn-lg shadow-sm uppercase border border-white text-white">
+            Посмотреть решения
+          </Link>
+        </div>
+      </div>
+      <div class:list={[
+          "relative flex-1 flex-col justfy-between items-end hidden",
+          "lg:flex",
+        ]}>
+        <div class="relative w-full h-full flex items-center justify-center" />
+      </div>
+    </Motion>
+    <div class="flex-1" />
+  </div>
+</section>
+
+<script>
+  import { pageLoader } from "@rxdrag/website-lib-core";
+  import gsap from "gsap";
+
+  // 定义动画函数，以便重用
+  const animateHeroItems = () => {
+    const elements = document.querySelectorAll(".hero-item");
+    // 确保有元素存在
+    if (elements && elements.length > 0) {
+      gsap.fromTo(
+        elements,
+        {
+          opacity: 0,
+          y: 100,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          delay: 0.8,
+          stagger: 0.05,
+          duration: 0.6,
+          ease: "power2.out",
+          overwrite: true,
+        }
+      );
+    }
+
+    const elements2 = document.querySelectorAll(".hero-item-left");
+    // 确保有元素存在
+    if (elements2 && elements2.length > 0) {
+      gsap.fromTo(
+        elements2,
+        {
+          opacity: 0,
+          y: 100,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          delay: 0.6,
+          stagger: 0.1,
+          duration: 1,
+          ease: "power2.out",
+          overwrite: true,
+        }
+      );
+    }
+  };
+
+  // 页面首次加载时执行动画
+  pageLoader.onLoaded(() => {
+    animateHeroItems();
+  });
+</script>

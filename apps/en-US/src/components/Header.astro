@@ -1,0 +1,125 @@
+---
+import { type TProductCategory } from "@rxdrag/website-lib-core";
+import { ProductCategoryQueryOptions, ProductCategoryFields } from "@rxdrag/rxcms-models";
+import { rx } from "theme";
+import { Link, ModalTrigger } from "@rxdrag/website-lib";
+import { Icon } from "@rxdrag/website-lib-core";
+import Logo from "@/components/Logo.astro";
+import ProductsPopover from "@/components/ProductsPopover.astro";
+import Langs from "@/components/Langs.astro";
+import MobileMenu from "@/components/MobileMenu.astro";
+import ProductsCollapse from "@/components/ProductsCollapse.astro";
+import SearchModal from "@/components/SearchModal.astro";
+
+const categories = (
+  await rx.queryEntityList(
+    new ProductCategoryQueryOptions(
+      [
+        ProductCategoryFields.id,
+        ProductCategoryFields.name,
+        ProductCategoryFields.slug,
+      ],
+      {
+        where: {
+          lang: {
+            abbr: {
+              _eq: rx.getLang(),
+            },
+          },
+        },
+        orderBy: [{ seqValue: "asc" }],
+      }
+    ),
+    "categories-in-nav"
+  )
+)?.items as TProductCategory[] | undefined;---
+
+<header class:list={[{ dark: "dark" }]}>
+  <div
+    class:list={[
+      "fixed w-full max-w-screen px-0 top-0 left-0 z-30 header",
+      "scrolled:bg-white/70 hover:bg-white/70  scrolled:shadow-lg  transition-all duration-300",
+      "text-foreground scrolled:text-black text-base scrolled:text-sm",
+      "scrolled:backdrop-blur-md hover:backdrop-blur-md",
+      "group/header",
+    ]}
+  >
+    <nav
+      aria-label="Header navigation"
+      class:list={[
+        "relative w-full container flex items-center justify-between transition-all duration-500 h-[5rem]  scrolled:h-[4rem]",
+      ]}
+    >
+      <div class="flex items-center w-[160px]">
+        <Logo alt="Coendia Logo" title="Coendia Logo" />
+      </div>
+      <div
+        class="self-stretch hidden lg:flex gap-x-6 xl:gap-x-20 flex-1 justify-center"
+      >
+        <div class="flex items-center relative">
+          <Link class="desk-nav-link" to="/" activeWhen>Home</Link>
+        </div>
+        <div class="flex items-center relative">
+          <Link class="desk-nav-link" to="/about" activeWhen>About</Link>
+        </div>
+        <div class="flex items-center relative">
+          <Link class="desk-nav-link" to="/technology" activeWhen>
+            Technology
+          </Link>
+        </div>
+        <div class="flex items-center relative">
+          <ProductsPopover title="Solutions" categories={categories} />
+        </div>
+        <div class="flex items-center relative">
+          <Link class="desk-nav-link" type="posts" activeWhen="/posts">
+            Blog
+          </Link>
+        </div>
+        <div class="flex items-center relative">
+          <Link class="desk-nav-link" to="/contact" activeWhen> Contact </Link>
+        </div>
+      </div>
+      <div class="lg:justify-end items-center gap-4 hidden lg:flex">
+        <ModalTrigger
+          as="button"
+          openableKey="search-modal"
+          class="group-hover/header:text-black outline-none p-1"
+        >
+          <Icon client:load className="size-5" icon="iconoir:search" />
+        </ModalTrigger>
+        <Langs />
+      </div>
+      <div class="flex lg:hidden text-foreground">
+        <ModalTrigger
+          as="button"
+          openableKey="mobile-menu"
+          class="text-foreground hover:text-foreground-hover outline-none p-1 scrolled:text-black"
+        >
+          <Icon client:load className="size-6" icon="iconoir:menu" />
+        </ModalTrigger>
+      </div>
+    </nav>
+  </div>
+  <MobileMenu>
+    <img
+      alt="Kingnod Logo"
+      class="h-8 w-auto transition-all"
+      src="/logo/logo.png"
+    />
+    <div class="space-y-2 py-6 pl-2 flex flex-col gap-4">
+      <Link class="font-semibold" to="/" activeWhen>Home</Link>
+      <Link class="font-semibold" to="/about" activeWhen>About</Link>
+      <Link class="font-semibold" to="/technology" activeWhen>
+        Technology
+      </Link>
+      <ProductsCollapse
+        class="font-semibold"
+        title="Solutions"
+        categories={categories}
+      />
+      <Link class="font-semibold" type="posts" activeWhen="/posts"> Blog </Link>
+      <Link class="font-semibold" to="/contact" activeWhen>Contact</Link>
+    </div>
+  </MobileMenu>
+  <SearchModal title="Search..." />
+</header>

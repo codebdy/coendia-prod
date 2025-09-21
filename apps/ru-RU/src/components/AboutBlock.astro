@@ -1,0 +1,117 @@
+---
+import { Motion } from "@rxdrag/website-lib";
+import VideoPlayer from "@/components/VideoPlayer.astro";
+interface Props {
+  noButton?: boolean;
+}
+const { noButton = false } = Astro.props;---
+
+<div class="w-full relative">
+  <div
+    class="w-full container grid grid-cols-1 lg:grid-cols-2 min-h-[300px] gap-12"
+  >
+    <Motion class="h-full" whileInView="fade-left">
+      <div class="w-full h-full flex items-center justify-center">
+        <VideoPlayer />
+      </div>
+    </Motion>
+    <Motion class="h-full" whileInView="fade-right">
+      <div class="w-full bg-white p-16 shadow-lg flex flex-col gap-4 relative">
+        <h3 class="block-title mt-6 text-left" data-animation-about="fade-up">
+          О Coendia
+        </h3>
+
+        <p
+          class="text-sm text-justify text-foreground-secondary"
+          data-animation-about="fade-up"
+        >
+          Партнер в области решений для точной эндоскопии. Мы специализируемся на переосмыслении малоинвазивной хирургии с помощью передовой микроинженерии и автоматизированного производства, предоставляя комплексные решения — от ключевых компонентов до интегрированных систем, соответствующих мировым стандартам соответствия.
+        </p>
+        <p
+          class="text-sm text-justify text-foreground-secondary"
+          data-animation-about="fade-up"
+        >
+          Руководствуясь нашей миссией по демократизации передовых медицинских технологий, мы помогаем партнерам внедрять высокоценные эндоскопические решения, расширяя доступ для недостаточно обслуживаемых сообществ по всему миру.
+        </p>
+        <p
+          class="text-sm text-justify text-foreground-secondary"
+          data-animation-about="fade-up"
+        >
+          Мы предоставляем медицинским OEM-производителям:
+        </p>
+        <ul
+          class="list-disc text-sm text-justify text-foreground-secondary flex flex-col gap-2 pl-5"
+        >
+          <li data-animation-about="fade-up">Полный спектр возможностей ODM/OEM</li>
+          <li data-animation-about="fade-up">
+            Лидирующее в отрасли соотношение производительности и стоимости
+          </li>
+          <li data-animation-about="fade-up">
+            Стабильное обеспечение качества (сертифицировано по ISO 13485)
+          </li>
+        </ul>
+        <p
+          class="text-sm text-justify text-foreground-secondary"
+          data-animation-about="fade-up"
+        >
+          Станьте нашим партнером, чтобы превратить хирургические инновации в глобальное влияние.
+        </p>
+
+        <div class="w-full flex justify-start" data-animation-about="fade-up">
+          {
+            !noButton && (
+              <div id="about-button">
+                <a
+                  class="btn btn-primary btn-md shadow-sm uppercase"
+                  href="/about"
+                >
+                  Узнать больше...
+                </a>
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </Motion>
+  </div>
+</div>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { pageLoader } from "@rxdrag/website-lib-core";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initAboutAnimations() {
+    // 查找容器和带有data-animation="fade-up"属性的元素
+    const container = document.querySelector(".w-full.container.grid");
+    const fadeUpItems = document.querySelectorAll('[data-animation-about="fade-up"]');
+    if (!container || !fadeUpItems.length) return;
+
+    // 设置初始状态
+    gsap.set(fadeUpItems, { opacity: 0, y: 30 });
+
+    // 使用容器触发，统一控制所有元素动画
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      })
+      .to(fadeUpItems, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        stagger: 0.1, // 交错动画
+      });
+  }
+
+  // 初始化动画
+  pageLoader.onLoaded(() => {
+    setTimeout(initAboutAnimations, 100);
+  });
+</script>

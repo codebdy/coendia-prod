@@ -1,0 +1,43 @@
+---
+import { FORM_SALT } from "theme";
+import { Motion } from "@rxdrag/website-lib";
+import { ContactForm } from "@rxdrag/website-lib-core";
+import IconUser from "@/components/IconUser.astro";
+---
+
+<section class="m-h-20 w-full mt-12 lg:mt-24 relative min-h-[700px] lg:min-h-[800px] flex flex-col justify-center">
+  <img src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/94e26d1a-d83e-44b2-9536-a0be6d70b0bc.jpg
+" alt="CTA背景" class="absolute inset-0 w-full h-full object-cover object-center -z-10" />
+  <Motion class="max-w-screen-xl mx-auto w-full flex flex-col" whileInView="fade-up">
+    <div class:list={["min-h-[500px] bg-surface-card w-full shadow-lg", "flex"]}>
+      <div class="flex-col hidden lg:flex w-1/3 bg-primary dark">
+        <img src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/2cca988f-ed98-4df9-b634-b1facbbe8a1e.jpg" alt="联系我们" />
+        <div class="flex flex-col w-full flex-1 justify-center gap-4 p-8 relative">
+          <p class="text-foreground-primary flex gap-1 text-sm">
+            <IconUser class="size-5" />
+            费利克斯
+          </p>
+          <p class="text-foreground-primary text-sm italic opacity-80">
+            一信之交共绘精彩未来，欢迎告诉我们您的详细需求：工艺要求，产品规格，数量，交期等，我们将竭诚为您服务。
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4 w-full lg:w-2/3 p-10 pb-0 items-center lg:items-start lg:pl-24">
+        <h2 class="block-title">
+          获取报价
+        </h2>
+        <ContactForm formSalt={FORM_SALT} labels={{
+            name: "您的姓名",
+            email: "邮箱",
+            mobile: "电话或Whatsapp",
+            company: "公司",
+            message: "留言",
+            submit: "发送消息",
+          }} submitAlign="left" classNames={{
+            submit: "btn-primary font-mono uppercase",
+            container: "gap-y-4 w-full",
+          }} client:load />
+      </div>
+    </div>
+  </Motion>
+</section>
