@@ -10,7 +10,6 @@ import Langs from "@/components/Langs.astro";
 import MobileMenu from "@/components/MobileMenu.astro";
 import ProductsCollapse from "@/components/ProductsCollapse.astro";
 import SearchModal from "@/components/SearchModal.astro";
-
 const categories = (
   await rx.queryEntityList(
     new ProductCategoryQueryOptions(
@@ -32,7 +31,7 @@ const categories = (
     ),
     "categories-in-nav"
   )
-)?.items as TProductCategory[] | undefined;---
+)?.items as TProductCategory[] | undefined;---
 
 <header class:list={[{ dark: "dark" }]}>
   <div class:list={[
@@ -69,7 +68,7 @@ const categories = (
         </div>
         <div class="flex items-center relative">
           <Link class="desk-nav-link" type="posts" activeWhen="/posts">
-            文章
+            博客
           </Link>
         </div>
         <div class="flex items-center relative">
@@ -92,7 +91,7 @@ const categories = (
     </nav>
   </div>
   <MobileMenu>
-    <img alt="Kingnod 标志" class="h-8 w-auto transition-all" src="/logo/logo.png" />
+    <img alt="Coendia 标志" class="h-8 w-auto transition-all" src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/771b1b7e-aed2-4c4f-bb48-df5dfe9fc857.png" />
     <div class="space-y-2 py-6 pl-2 flex flex-col gap-4">
       <Link class="font-semibold" to="/" activeWhen={true}>
         首页
