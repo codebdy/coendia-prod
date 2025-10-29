@@ -13,18 +13,31 @@ import CtaBlock from "@/components/CtaBlock.astro";
 import Footer from "@/components/Footer.astro";
 import MiniFloat from "@/components/MiniFloat.astro";
 import Globals from "@/components/Globals.astro";
+import QualityCertifications from "@/components/QualityCertifications.astro";
 const page = await rx.getHomePage();
-const meta = page?.meta;---
+const meta = page?.meta;
+---
 
 <Layout>
   <Meta slot="meta" content={meta} />
   <Header />
-  <HomeHero title="Bring medical progress to the places that need it most — Coendia." subtitle="Delivering innovation and care to every corner of the world." ctaTitle="Consult Now" backgroundImage="/images/hero-bg.jpg" />
+  <HomeHero
+    title="Bring medical progress to the places that need it most — Coendia."
+    subtitle="Delivering innovation and care to every corner of the world."
+    ctaTitle="Consult Now"
+    backgroundImage="/images/hero-bg.jpg"
+  />
   <HomeSolutions />
   <HomeTechniques />
   <HomeAbout />
+  <QualityCertifications />
   <HomeFlows />
-  <LastedPosts title="Latest Articles" subtitle="Insights and Innovations in Medical Endoscopy" detailTitle="Read more" count={4} />
+  <LastedPosts
+    title="Latest Articles"
+    subtitle="Insights and Innovations in Medical Endoscopy"
+    detailTitle="Read more"
+    count={4}
+  />
   <CtaBlock />
   <Footer />
   <MiniFloat />
