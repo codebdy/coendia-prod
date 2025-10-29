@@ -1,0 +1,141 @@
+---
+import { Icon } from "@rxdrag/website-lib-core";
+import BlockTitle from "@/components/BlockTitle.astro";
+
+const teamStats = [
+  {
+    number: "45",
+    label: "Team Members",
+    description: "Dedicated professionals committed to excellence",
+    icon: "lucide:users",
+  },
+  {
+    number: "8",
+    label: "R&D Personnel",
+    description: "Innovation-driven research and development team",
+    icon: "lucide:lightbulb",
+  },
+  {
+    number: "7",
+    label: "Years Experience",
+    description: "Average years in medical device industry",
+    icon: "lucide:trending-up",
+  },
+];
+---
+
+<section class="py-20 bg-gray-50">
+  <div class="container">
+    <div class="text-center mb-16">
+      <BlockTitle 
+        title="Our Team" 
+        sub_title="Experienced professionals dedicated to advancing medical technology" 
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 team-stats-grid">
+      {
+        teamStats.map((stat, index) => (
+          <div class="text-center p-12 bg-white rounded-lg shadow-md team-stat-card" data-index={index}>
+            <div class="flex justify-center mb-6 stat-icon">
+              <Icon icon={stat.icon} className="size-16 text-primary" client:load />
+            </div>
+            <div class="mb-4">
+              <div class="text-5xl font-bold text-primary stat-number">{stat.number}</div>
+              <div class="text-xl font-semibold mt-2 stat-label">{stat.label}</div>
+            </div>
+            <p class="text-gray-600 stat-desc">{stat.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { pageLoader } from "@rxdrag/website-lib-core";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initTeamStatsAnimations() {
+    const teamStatCards = document.querySelectorAll(".team-stat-card");
+    const teamStatsGrid = document.querySelector(".team-stats-grid");
+
+    if (teamStatCards.length && teamStatsGrid) {
+      gsap.set(teamStatCards, {
+        opacity: 0,
+        y: 60,
+        scale: 0.9,
+      });
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: teamStatsGrid,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        })
+        .to(teamStatCards, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          ease: "power2.out",
+          stagger: 0.2,
+        });
+
+      // 数字计数动画
+      teamStatCards.forEach((card) => {
+        const numberElement = card.querySelector(".stat-number");
+        const icon = card.querySelector(".stat-icon");
+        
+        if (numberElement) {
+          const targetNumber = parseInt(numberElement.textContent);
+          
+          ScrollTrigger.create({
+            trigger: card,
+            start: "top 85%",
+            onEnter: () => {
+              gsap.from(numberElement, {
+                textContent: 0,
+                duration: 1.5,
+                ease: "power2.out",
+                snap: { textContent: 1 },
+                onUpdate: function() {
+                  numberElement.textContent = Math.ceil(this.targets()[0].textContent).toString();
+                }
+              });
+            },
+            once: true,
+          });
+        }
+
+        if (icon) {
+          card.addEventListener("mouseenter", () => {
+            gsap.to(icon, {
+              scale: 1.1,
+              rotation: 5,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+          });
+
+          card.addEventListener("mouseleave", () => {
+            gsap.to(icon, {
+              scale: 1,
+              rotation: 0,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+          });
+        }
+      });
+    }
+  }
+
+  pageLoader.onLoaded(() => {
+    setTimeout(initTeamStatsAnimations, 100);
+  });
+</script>
