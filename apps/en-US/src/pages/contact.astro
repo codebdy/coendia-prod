@@ -19,8 +19,11 @@ const meta = (await rx.getPageBySlug("contact"))?.meta;
 <Layout>
   <Meta slot="meta" content={meta} />
   <Header />
-  <Breadcrumb items={breadcrumbs} title="About Us" bgUrl="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/405cb6a3-a8f5-4333-b996-b2b88ae8230c.jpg" />
-
+  <Breadcrumb
+    items={breadcrumbs}
+    title="Contact us"
+    bgUrl="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/405cb6a3-a8f5-4333-b996-b2b88ae8230c.jpg"
+  />
   <section class="container article gap-28">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
       <Motion
