@@ -7,6 +7,7 @@ import HomeHero from "@/components/HomeHero.astro";
 import HomeSolutions from "@/components/HomeSolutions.astro";
 import HomeTechniques from "@/components/HomeTechniques.astro";
 import HomeAbout from "@/components/HomeAbout.astro";
+import QualityCertifications from "@/components/QualityCertifications.astro";
 import HomeFlows from "@/components/HomeFlows.astro";
 import LastedPosts from "@/components/LastedPosts.astro";
 import CtaBlock from "@/components/CtaBlock.astro";
@@ -19,10 +20,11 @@ const meta = page?.meta;---
 <Layout>
   <Meta slot="meta" content={meta} />
   <Header />
-  <HomeHero title="Принесите медицинский прогресс туда, где он больше всего нужен — Coendia." subtitle="Доставляем инновации и заботу в каждый уголок мира." ctaTitle="Проконсультироваться сейчас" backgroundImage="/images/hero-bg.jpg" />
+  <HomeHero title="Привнести медицинский прогресс туда, где он нужен больше всего — Coendia." subtitle="Доставка инноваций и заботы в каждый уголок мира." ctaTitle="Консультация сейчас" backgroundImage="/images/hero-bg.jpg" />
   <HomeSolutions />
   <HomeTechniques />
   <HomeAbout />
+  <QualityCertifications />
   <HomeFlows />
   <LastedPosts title="Последние статьи" subtitle="Инсайты и инновации в медицинской эндоскопии" detailTitle="Читать далее" count={4} />
   <CtaBlock />

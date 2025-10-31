@@ -8,6 +8,9 @@ import Header from "@/components/Header.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import AboutBlock from "@/components/AboutBlock.astro";
 import BlockTitle from "@/components/BlockTitle.astro";
+import TeamStats from "@/components/TeamStats.astro";
+import PatentsShowcase from "@/components/PatentsShowcase.astro";
+import QualityCertifications from "@/components/QualityCertifications.astro";
 import CtaBlock from "@/components/CtaBlock.astro";
 import Footer from "@/components/Footer.astro";
 import MiniFloat from "@/components/MiniFloat.astro";
@@ -49,7 +52,7 @@ const meta = (await rx.getPageBySlug("about"))?.meta;---
     </section>
   </div>
   <div class="min-h-screen mt-24">
-    <!--   Service Advantages   -->
+    <!--    Service Advantages    -->
     <section class="py-20 bg-white">
       <div class="container">
         <div class="text-center mb-16">
@@ -72,6 +75,9 @@ const meta = (await rx.getPageBySlug("about"))?.meta;---
         </div>
       </div>
     </section>
+    <TeamStats />
+    <PatentsShowcase />
+    <QualityCertifications />
     <CtaBlock />
     <Footer />
     <MiniFloat />

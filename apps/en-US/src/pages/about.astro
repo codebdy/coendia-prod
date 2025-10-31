@@ -8,13 +8,13 @@ import Header from "@/components/Header.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import AboutBlock from "@/components/AboutBlock.astro";
 import BlockTitle from "@/components/BlockTitle.astro";
+import TeamStats from "@/components/TeamStats.astro";
+import PatentsShowcase from "@/components/PatentsShowcase.astro";
+import QualityCertifications from "@/components/QualityCertifications.astro";
 import CtaBlock from "@/components/CtaBlock.astro";
 import Footer from "@/components/Footer.astro";
 import MiniFloat from "@/components/MiniFloat.astro";
 import Globals from "@/components/Globals.astro";
-import TeamStats from "@/components/TeamStats.astro";
-import PatentsShowcase from "@/components/PatentsShowcase.astro";
-import QualityCertifications from "@/components/QualityCertifications.astro";
 
 // 生成面包屑
 const breadcrumbs = rxPage.breadcrumbs("About", "Home");
@@ -40,9 +40,7 @@ const serviceAdvantages = [
     icon: "lucide:clock",
   },
 ];
-const meta = (await rx.getPageBySlug("about"))?.meta;
-
----
+const meta = (await rx.getPageBySlug("about"))?.meta;---
 
 <Layout>
   <Meta slot="meta" content={meta} />

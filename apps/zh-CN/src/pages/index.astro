@@ -7,6 +7,7 @@ import HomeHero from "@/components/HomeHero.astro";
 import HomeSolutions from "@/components/HomeSolutions.astro";
 import HomeTechniques from "@/components/HomeTechniques.astro";
 import HomeAbout from "@/components/HomeAbout.astro";
+import QualityCertifications from "@/components/QualityCertifications.astro";
 import HomeFlows from "@/components/HomeFlows.astro";
 import LastedPosts from "@/components/LastedPosts.astro";
 import CtaBlock from "@/components/CtaBlock.astro";
@@ -19,12 +20,13 @@ const meta = page?.meta;---
 <Layout>
   <Meta slot="meta" content={meta} />
   <Header />
-  <HomeHero title="将医疗进步带到最需要的地方——Coendia" subtitle="为世界每个角落提供创新与关怀" ctaTitle="立即咨询" backgroundImage="/images/hero-bg.jpg" />
+  <HomeHero title="将医疗进步带到最需要的地方 — Coendia。" subtitle="将创新和关怀送到世界的每一个角落。" ctaTitle="立即咨询" backgroundImage="/images/hero-bg.jpg" />
   <HomeSolutions />
   <HomeTechniques />
   <HomeAbout />
+  <QualityCertifications />
   <HomeFlows />
-  <LastedPosts title="最新文章" subtitle="医学内窥镜领域的洞见与创新" detailTitle="了解更多" count={4} />
+  <LastedPosts title="最新文章" subtitle="医学内镜的见解与创新" detailTitle="阅读更多" count={4} />
   <CtaBlock />
   <Footer />
   <MiniFloat />

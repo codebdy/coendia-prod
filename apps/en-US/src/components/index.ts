@@ -37,3 +37,6 @@ export { default as SolutionCategoryCard } from "./SolutionCategoryCard.astro";
 export { default as VideoPlayer } from "./VideoPlayer.astro";
 export { default as Footer } from "./Footer.astro";
 export { default as AboutBlock } from "./AboutBlock.astro";
+export { default as PatentsShowcase } from "./PatentsShowcase.astro";
+export { default as QualityCertifications } from "./QualityCertifications.astro";
+export { default as TeamStats } from "./TeamStats.astro";

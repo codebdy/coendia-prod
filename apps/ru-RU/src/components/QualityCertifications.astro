@@ -5,20 +5,20 @@ import BlockTitle from "@/components/BlockTitle.astro";
 const certifications = [
   {
     title: "ISO 13485",
-    description: "Medical Devices Quality Management System",
-    status: "Certified",
+    description: "Система управления качеством медицинских изделий",
+    status: "Сертифицировано",
     icon: "lucide:badge-check",
   },
   {
     title: "ISO 9001",
-    description: "Quality Management System Certification",
-    status: "Certified",
+    description: "Сертификация системы управления качеством",
+    status: "Сертифицировано",
     icon: "lucide:shield-check",
   },
   {
     title: "ISO 14971",
-    description: "Medical Device Risk Management",
-    status: "Certified",
+    description: "Управление рисками медицинских устройств",
+    status: "Сертифицировано",
     icon: "lucide:check-circle",
   },
 ];---
@@ -26,27 +26,26 @@ const certifications = [
 <section class="py-20 bg-gray-50">
   <div class="container">
     <div class="text-center mb-16">
-      <BlockTitle 
-        title="Quality Management System" 
-        sub_title="Committed to international standards and continuous improvement" 
-      />
+      <BlockTitle title="Система управления качеством" sub_title="Стремление к международным стандартам и постоянному улучшению" />
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 certifications-grid">
-      {
-        certifications.map((cert, index) => (
-          <div class="relative p-12 bg-white rounded-lg shadow-md certification-card" data-index={index}>
-            <div class="flex justify-center mb-6 cert-icon">
-              <Icon icon={cert.icon} className="size-16 text-primary" client:load />
-            </div>
-            <h3 class="text-2xl font-bold text-center mb-3 cert-title">{cert.title}</h3>
-            <p class="text-gray-600 text-center mb-4 cert-desc">{cert.description}</p>
-            <div class="text-center">
-              <span class={`inline-block px-4 py-2 rounded-full text-sm font-semibold cert-status ${cert.status === 'Certified' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
-                {cert.status}
-              </span>
-            </div>
-          </div>
-        ))
+{
+        certifications.map((cert, index) => (<div class="relative p-12 bg-white rounded-lg shadow-md certification-card" data-index={index}>
+        <div class="flex justify-center mb-6 cert-icon">
+        <Icon icon={cert.icon} className="size-16 text-primary" client:load />
+        </div>
+        <h3 class="text-2xl font-bold text-center mb-3 cert-title">
+        {cert.title}
+        </h3>
+        <p class="text-gray-600 text-center mb-4 cert-desc">
+        {cert.description}
+        </p>
+        <div class="text-center">
+        <span class={`inline-block px-4 py-2 rounded-full text-sm font-semibold cert-status ${cert.status === 'Сертифицировано' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+        {cert.status}
+        </span>
+        </div>
+        </div>))
       }
     </div>
   </div>

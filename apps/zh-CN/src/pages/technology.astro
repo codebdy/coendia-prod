@@ -10,87 +10,89 @@ import Footer from "@/components/Footer.astro";
 import MiniFloat from "@/components/MiniFloat.astro";
 import Globals from "@/components/Globals.astro";
 
-// Generate breadcrumbs
-const breadcrumbs = rxPage.breadcrumbs("Technical", "Home");
+// 生成面包屑导航
+const breadcrumbs = rxPage.breadcrumbs("技术能力", "首页");
 const meta = (await rx.getPageBySlug("service"))?.meta;
-// Technology process card data extraction
+// 技术工艺卡片数据
 const technologyCards = [
   {
-    title: "High-precision laser cutting",
-    description: `High-precision cutting of φ0.3–φ15mm tubes; cutting accuracy ±0.02mm, complex cuts can be accurately achieved. High-quality laser source and stable transmission ensure reliable continuous operation.`,
-    badges: ["φ0.3–φ15mm", "±0.02mm", "Continuous stability"],
+    title: "高精度激光切割",
+    description: `φ0.3–φ15mm管材高精度切割;切割精度±0.02mm,复杂切口可精准实现。优质激光源和稳定传输确保可靠连续运行。`,
+    badges: ["φ0.3–φ15mm", "±0.02mm", "连续稳定"],
     tag: "±0.02mm",
     img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/d3fb0ab1-a916-4f0e-b08c-6046abf2efdd.jpg",
   },
   {
-    title: "Endoscope snake bone riveting",
-    description: `Automated high-precision riveting, smallest snake bone can reach φ1.8mm; riveting accuracy ≤ ±0.02mm, firm connection and flexible movement.`,
-    badges: ["φ1.8mm minimum", "±0.02mm", "Automation"],
+    title: "内窥镜蛇骨铆接",
+    description: `自动化高精度铆接,最小蛇骨可达φ1.8mm;铆接精度≤±0.02mm,连接牢固、运动灵活。`,
+    badges: ["φ1.8mm最小", "±0.02mm", "自动化"],
     tag: "±0.02mm",
     img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/9760c5d2-2a8a-4464-86c9-d1b4a0a7ddfb.jpg",
   },
   {
-    title: "Endoscope snake bone welding",
-    description: `Precision welding, minimum weld spot diameter 0.1mm; inert gas protection prevents oxidation. Passed high/low temperature/vibration tests, no cracking or falling off, excellent reliability.`,
-    badges: ["0.1mm spot diameter", "Inert protection", "Environmental stress verification"],
-    tag: "Spot diameter ≥0.1mm",
+    title: "内窥镜蛇骨焊接",
+    description: `精密焊接,最小焊点直径0.1mm;惰性气体保护防止氧化。通过高/低温/振动测试,无开裂或脱落,可靠性优异。`,
+    badges: ["0.1mm焊点直径", "惰性保护", "环境应力验证"],
+    tag: "焊点直径≥0.1mm",
     img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/54993837-9375-4321-8579-202d9dad329f.jpg",
   },
   {
-    title: "Micro camera welding",
-    description: `Self-developed automated equipment achieves high-precision welding, camera and PCB connection deviation ≤0.01mm; laser welding has small heat-affected zone, image recognition monitors quality in real time.`,
-    badges: ["≤0.01mm", "Laser welding", "Visual monitoring"],
-    tag: "Deviation ≤0.01mm",
+    title: "微型摄像头焊接",
+    description: `自研自动化设备实现高精度焊接,摄像头与PCB连接偏差≤0.01mm;激光焊接热影响区小,图像识别实时监控质量。`,
+    badges: ["≤0.01mm", "激光焊接", "视觉监控"],
+    tag: "偏差≤0.01mm",
     img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/eb46c5bd-6b69-4501-8ce8-a9005ac8a5fb.jpg",
   },
   {
-    title: "Clean precision injection molding",
-    description: `Has design and manufacturing capabilities; advanced injection molding and mold technology, smooth surface without bubbles/shrink marks; automatic feeding, demolding and detection, high efficiency and stable quality.`,
-    badges: ["Automation", "Excellent appearance", "Consistency"],
+    title: "洁净精密注塑",
+    description: `具备设计和制造能力;先进的注塑和模具技术,表面光滑无气泡/缩痕;自动上料、脱模和检测,高效率且质量稳定。`,
+    badges: ["自动化", "外观优异", "一致性"],
     tag: "+0.5℃",
     img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/fc989135-fa1f-4c0e-abf5-57c5c96b6fbd.jpg",
   },
   {
-    title: "Coated tube extrusion",
-    description: `Precision extrusion coating for φ0.5–φ15mm tubes, coating thickness 0.05–0.5mm; uses high-precision extrusion dies and temperature control systems to ensure uniform and dense coating with strong adhesion.`,
-    badges: ["φ0.5–φ15mm", "0.05–0.5mm", "High adhesion"],
+    title: "涂层管挤出",
+    description: `φ0.5–φ15mm管材精密挤出涂层,涂层厚度0.05–0.5mm;采用高精度挤出模具和温控系统,确保涂层均匀致密、附着力强。`,
+    badges: ["φ0.5–φ15mm", "0.05–0.5mm", "高附着力"],
     tag: "φ0.5–φ15mm",
     img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/801eb263-be36-42bd-812f-83206cde7c31.jpg",
   },
   {
-    title: "Full process inspection",
-    description: `Comprehensive inspection system covering raw materials, processes and finished products; equipped with high-precision measuring instruments and automated inspection equipment to ensure quality control at every stage and traceable data.`,
-    badges: ["Raw material inspection", "Process control", "Final inspection"],
-    tag: "100% inspection",
+    title: "全流程检验",
+    description: `覆盖原材料、工艺和成品的综合检验体系;配备高精度测量仪器和自动化检测设备,确保每个阶段的质量控制和数据可追溯。`,
+    badges: ["原材料检验", "过程控制", "成品检验"],
+    tag: "100%检验",
     img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/7ed3d216-6b09-47c8-875c-8636f26a45ab.jpg",
   },
   {
-    title: "Endoscope design",
-    description: `Focuses on underlying endoscope technology, masters complete process chain; combines clinical usage scenarios, identifies and avoids design risks in advance.`,
-    badges: ["Underlying technology", "Process closure", "Clinical orientation"],
-    tag: "Risk pre-positioning",
+    title: "内窥镜设计",
+    description: `专注于内窥镜底层技术,掌握完整工艺链;结合临床使用场景,提前识别和规避设计风险。`,
+    badges: ["底层技术", "工艺闭环", "临床导向"],
+    tag: "风险前置",
     img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/41bafb77-f10b-439c-ad0c-80d0603c6bf8.jpg",
   },
   {
-    title: "Self-developed equipment",
-    description: `Self-developed laser cutting, camera welding, visual inspection, fatigue and durability testing equipment to ensure quality and production capacity.`,
-    badges: ["Automation", "Custom production lines", "Efficiency improvement"],
-    tag: "Equipment self-developed",
+    title: "自研设备",
+    description: `自主研发激光切割、摄像头焊接、视觉检测、疲劳耐久测试设备,确保质量和产能。`,
+    badges: ["自动化", "定制产线", "效率提升"],
+    tag: "设备自研",
     img: "https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/e04b8a49-043d-4871-a33b-67a1bfe91ec7.jpg",
   },
-];---
+];
+
+---
 
 <Layout>
   <Meta slot="meta" content={meta} />
   <Header />
-  <Breadcrumb items={breadcrumbs} title="Technical Capabilities" bgUrl="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/e638f635-ccd2-4beb-9896-a650f657308d.jpg" />
+  <Breadcrumb items={breadcrumbs} title="技术能力" bgUrl="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/e638f635-ccd2-4beb-9896-a650f657308d.jpg" />
   <section class="w-full mt-24">
     <div class="container flex flex-col gap-6">
       <h2 class="block-title">
-        Key Process Capabilities
+        核心工艺能力
       </h2>
       <p class="block-subtitle">
-        Precision Craftsmanship for Medical Excellence
+        精密工艺 铸就医疗卓越
       </p>
       <div class="mt-8 grid gap-16 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 tech-cards-grid">
 {
@@ -135,20 +137,20 @@ const technologyCards = [
   gsap.registerPlugin(ScrollTrigger);
 
   function initTechAnimations() {
-    // Find technology card elements
+    // 查找技术卡片元素
     const techCards = document.querySelectorAll(".tech-card");
     const techGrid = document.querySelector(".tech-cards-grid");
 
     if (!techCards.length || !techGrid) return;
 
-    // Set initial state
+    // 设置初始状态
     gsap.set(techCards, {
       opacity: 0,
       y: 80,
       scale: 0.95,
     });
 
-    // Calculate number of cards per row based on responsive layout
+    // 根据响应式布局计算每行卡片数量
     const getCardsPerRow = () => {
       const screenWidth = window.innerWidth;
       if (screenWidth >= 1024) return 3; // lg:grid-cols-3
@@ -156,7 +158,7 @@ const technologyCards = [
       return 1; // grid-cols-1
     };
 
-    // Group cards by row and create independent animations for each row
+    // 按行分组卡片并为每行创建独立动画
     const cardsPerRow = getCardsPerRow();
     const totalRows = Math.ceil(techCards.length / cardsPerRow);
 
@@ -166,7 +168,7 @@ const technologyCards = [
       const rowCards = Array.from(techCards).slice(startIndex, endIndex);
 
       if (rowCards.length > 0) {
-        // Create independent ScrollTrigger for each row
+        // 为每行创建独立的 ScrollTrigger
         gsap
           .timeline({
             scrollTrigger: {
@@ -186,7 +188,7 @@ const technologyCards = [
       }
     }
 
-    // Add hover effects for each card
+    // 为每个卡片添加悬停效果
     techCards.forEach((card) => {
       const cardImage = card.querySelector(".tech-card-image");
       const cardTag = card.querySelector(".tech-card-tag");
@@ -232,7 +234,7 @@ const technologyCards = [
     });
   }
 
-  // Initialize animations
+  // 初始化动画
   pageLoader.onLoaded(() => {
     setTimeout(initTechAnimations, 100);
   });
