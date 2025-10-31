@@ -5,14 +5,14 @@ import BlockTitle from "@/components/BlockTitle.astro";
 const patents = [
   {
     number: "27",
-    label: "Domestic Patents",
-    description: "Innovative solutions protected by intellectual property",
+    label: "国内专利",
+    description: "创新方案已通过知识产权保护",
     icon: "lucide:file-check",
   },
   {
     number: "6",
-    label: "Software Copyrights",
-    description: "Proprietary software technologies and systems",
+    label: "软件著作权",
+    description: "自主研发的软件技术与系统",
     icon: "lucide:code",
   },
 ];---
@@ -20,25 +20,26 @@ const patents = [
 <section class="py-20 bg-white">
   <div class="container">
     <div class="text-center mb-16">
-      <BlockTitle 
-        title="Innovation & Intellectual Property" 
-        sub_title="Protecting our innovations and driving industry advancement" 
-      />
+      <BlockTitle title="创新与知识产权" sub_title="保护创新成果，推动行业进步" />
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto patents-grid">
-      {
-        patents.map((patent, index) => (
-          <div class="relative p-12 border-2 border-primary rounded-lg patent-card" data-index={index}>
-            <div class="flex justify-center mb-6 patent-icon">
-              <Icon icon={patent.icon} className="size-16 text-primary" client:load />
-            </div>
-            <div class="text-center mb-4">
-              <div class="text-6xl font-bold text-primary patent-number">{patent.number}</div>
-              <div class="text-2xl font-semibold mt-3 patent-label">{patent.label}</div>
-            </div>
-            <p class="text-gray-600 text-center patent-desc">{patent.description}</p>
-          </div>
-        ))
+{
+        patents.map((patent, index) => (<div class="relative p-12 border-2 border-primary rounded-lg patent-card" data-index={index}>
+        <div class="flex justify-center mb-6 patent-icon">
+        <Icon icon={patent.icon} className="size-16 text-primary" client:load />
+        </div>
+        <div class="text-center mb-4">
+        <div class="text-6xl font-bold text-primary patent-number">
+        {patent.number}
+        </div>
+        <div class="text-2xl font-semibold mt-3 patent-label">
+        {patent.label}
+        </div>
+        </div>
+        <p class="text-gray-600 text-center patent-desc">
+        {patent.description}
+        </p>
+        </div>))
       }
     </div>
   </div>

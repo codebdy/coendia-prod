@@ -1,0 +1,116 @@
+---
+import { Icon } from "@rxdrag/website-lib-core";
+import BlockTitle from "@/components/BlockTitle.astro";
+
+const certifications = [
+  {
+    title: "ISO 13485",
+    description: "医疗器械质量管理体系",
+    status: "已认证",
+    icon: "lucide:badge-check",
+  },
+  {
+    title: "ISO 9001",
+    description: "质量管理体系认证",
+    status: "已认证",
+    icon: "lucide:shield-check",
+  },
+  {
+    title: "ISO 14971",
+    description: "医疗器械风险管理",
+    status: "已认证",
+    icon: "lucide:check-circle",
+  },
+];---
+
+<section class="py-20 bg-gray-50">
+  <div class="container">
+    <div class="text-center mb-16">
+      <BlockTitle title="质量管理体系" sub_title="致力于国际标准与持续改进" />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 certifications-grid">
+{
+        certifications.map((cert, index) => (<div class="relative p-12 bg-white rounded-lg shadow-md certification-card" data-index={index}>
+        <div class="flex justify-center mb-6 cert-icon">
+        <Icon icon={cert.icon} className="size-16 text-primary" client:load />
+        </div>
+        <h3 class="text-2xl font-bold text-center mb-3 cert-title">
+        {cert.title}
+        </h3>
+        <p class="text-gray-600 text-center mb-4 cert-desc">
+        {cert.description}
+        </p>
+        <div class="text-center">
+        <span class={`inline-block px-4 py-2 rounded-full text-sm font-semibold cert-status ${cert.status === '已认证' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+        {cert.status}
+        </span>
+        </div>
+        </div>))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { pageLoader } from "@rxdrag/website-lib-core";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initCertificationsAnimations() {
+    const certificationCards = document.querySelectorAll(".certification-card");
+    const certificationsGrid = document.querySelector(".certifications-grid");
+
+    if (certificationCards.length && certificationsGrid) {
+      gsap.set(certificationCards, {
+        opacity: 0,
+        y: 60,
+      });
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: certificationsGrid,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        })
+        .to(certificationCards, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          stagger: 0.15,
+        });
+
+      certificationCards.forEach((card) => {
+        const icon = card.querySelector(".cert-icon");
+
+        if (icon) {
+          card.addEventListener("mouseenter", () => {
+            gsap.to(icon, {
+              scale: 1.1,
+              y: -5,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+          });
+
+          card.addEventListener("mouseleave", () => {
+            gsap.to(icon, {
+              scale: 1,
+              y: 0,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+          });
+        }
+      });
+    }
+  }
+
+  pageLoader.onLoaded(() => {
+    setTimeout(initCertificationsAnimations, 100);
+  });
+</script>

@@ -1,0 +1,133 @@
+---
+import { Icon } from "@rxdrag/website-lib-core";
+import BlockTitle from "@/components/BlockTitle.astro";
+
+const patents = [
+  {
+    number: "27",
+    label: "Национальные патенты",
+    description: "Инновационные решения, защищённые правами интеллектуальной собственности",
+    icon: "lucide:file-check",
+  },
+  {
+    number: "6",
+    label: "Авторские права на программное обеспечение",
+    description: "Собственные программные технологии и системы",
+    icon: "lucide:code",
+  },
+];---
+
+<section class="py-20 bg-white">
+  <div class="container">
+    <div class="text-center mb-16">
+      <BlockTitle title="Инновации и интеллектуальная собственность" sub_title="Защищаем наши инновации и способствуем развитию отрасли" />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto patents-grid">
+{
+        patents.map((patent, index) => (<div class="relative p-12 border-2 border-primary rounded-lg patent-card" data-index={index}>
+        <div class="flex justify-center mb-6 patent-icon">
+        <Icon icon={patent.icon} className="size-16 text-primary" client:load />
+        </div>
+        <div class="text-center mb-4">
+        <div class="text-6xl font-bold text-primary patent-number">
+        {patent.number}
+        </div>
+        <div class="text-2xl font-semibold mt-3 patent-label">
+        {patent.label}
+        </div>
+        </div>
+        <p class="text-gray-600 text-center patent-desc">
+        {patent.description}
+        </p>
+        </div>))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { pageLoader } from "@rxdrag/website-lib-core";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initPatentsAnimations() {
+    const patentCards = document.querySelectorAll(".patent-card");
+    const patentsGrid = document.querySelector(".patents-grid");
+
+    if (patentCards.length && patentsGrid) {
+      gsap.set(patentCards, {
+        opacity: 0,
+        scale: 0.8,
+      });
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: patentsGrid,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        })
+        .to(patentCards, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          ease: "back.out(1.2)",
+          stagger: 0.2,
+        });
+
+      // Анимация подсчета чисел патентов
+      patentCards.forEach((card) => {
+        const numberElement = card.querySelector(".patent-number");
+        const icon = card.querySelector(".patent-icon");
+        
+        if (numberElement) {
+          const targetNumber = parseInt(numberElement.textContent);
+          
+          ScrollTrigger.create({
+            trigger: card,
+            start: "top 85%",
+            onEnter: () => {
+              gsap.from(numberElement, {
+                textContent: 0,
+                duration: 2,
+                ease: "power2.out",
+                snap: { textContent: 1 },
+                onUpdate: function() {
+                  numberElement.textContent = Math.ceil(this.targets()[0].textContent).toString();
+                }
+              });
+            },
+            once: true,
+          });
+        }
+
+        if (icon) {
+          card.addEventListener("mouseenter", () => {
+            gsap.to(icon, {
+              scale: 1.15,
+              rotation: 360,
+              duration: 0.5,
+              ease: "power2.out",
+            });
+          });
+
+          card.addEventListener("mouseleave", () => {
+            gsap.to(icon, {
+              scale: 1,
+              rotation: 0,
+              duration: 0.5,
+              ease: "power2.out",
+            });
+          });
+        }
+      });
+    }
+  }
+
+  pageLoader.onLoaded(() => {
+    setTimeout(initPatentsAnimations, 100);
+  });
+</script>

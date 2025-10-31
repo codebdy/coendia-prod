@@ -8,10 +8,14 @@ import Header from "@/components/Header.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import AboutBlock from "@/components/AboutBlock.astro";
 import BlockTitle from "@/components/BlockTitle.astro";
+import TeamStats from "@/components/TeamStats.astro";
+import PatentsShowcase from "@/components/PatentsShowcase.astro";
+import QualityCertifications from "@/components/QualityCertifications.astro";
 import CtaBlock from "@/components/CtaBlock.astro";
 import Footer from "@/components/Footer.astro";
 import MiniFloat from "@/components/MiniFloat.astro";
 import Globals from "@/components/Globals.astro";
+
 // 生成面包屑
 const breadcrumbs = rxPage.breadcrumbs("About", "Home");
 const serviceAdvantages = [
@@ -36,19 +40,19 @@ const serviceAdvantages = [
     icon: "lucide:clock",
   },
 ];
-const meta = (await rx.getPageBySlug("about"))?.meta;---
+const meta = (await rx.getPageBySlug("about"))?.meta;---
 
 <Layout>
   <Meta slot="meta" content={meta} />
   <Header />
-    <Breadcrumb items={breadcrumbs} title="About Us" bgUrl="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/405cb6a3-a8f5-4333-b996-b2b88ae8230c.jpg" />
+  <Breadcrumb items={breadcrumbs} title="About Us" bgUrl="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/405cb6a3-a8f5-4333-b996-b2b88ae8230c.jpg" />
   <div class="flex flex-col relative mt-20">
     <section>
       <AboutBlock noButton={true} />
     </section>
   </div>
   <div class="min-h-screen mt-24">
-    <!--  Service Advantages  -->
+    <!--   Service Advantages   -->
     <section class="py-20 bg-white">
       <div class="container">
         <div class="text-center mb-16">
@@ -71,6 +75,9 @@ const meta = (await rx.getPageBySlug("about"))?.meta;---
         </div>
       </div>
     </section>
+    <TeamStats />
+    <PatentsShowcase />
+    <QualityCertifications />
     <CtaBlock />
     <Footer />
     <MiniFloat />

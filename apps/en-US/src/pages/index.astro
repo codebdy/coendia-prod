@@ -7,16 +7,16 @@ import HomeHero from "@/components/HomeHero.astro";
 import HomeSolutions from "@/components/HomeSolutions.astro";
 import HomeTechniques from "@/components/HomeTechniques.astro";
 import HomeAbout from "@/components/HomeAbout.astro";
+import QualityCertifications from "@/components/QualityCertifications.astro";
 import HomeFlows from "@/components/HomeFlows.astro";
 import LastedPosts from "@/components/LastedPosts.astro";
 import CtaBlock from "@/components/CtaBlock.astro";
 import Footer from "@/components/Footer.astro";
 import MiniFloat from "@/components/MiniFloat.astro";
 import Globals from "@/components/Globals.astro";
-import QualityCertifications from "@/components/QualityCertifications.astro";
+
 const page = await rx.getHomePage();
-const meta = page?.meta;
----
+const meta = page?.meta;---
 
 <Layout>
   <Meta slot="meta" content={meta} />

@@ -5,20 +5,20 @@ import BlockTitle from "@/components/BlockTitle.astro";
 const teamStats = [
   {
     number: "45",
-    label: "Team Members",
-    description: "Dedicated professionals committed to excellence",
+    label: "Члены команды",
+    description: "Преданные своему делу профессионалы, стремящиеся к совершенству",
     icon: "lucide:users",
   },
   {
     number: "8",
-    label: "R&D Personnel",
-    description: "Innovation-driven research and development team",
+    label: "Сотрудники R&D",
+    description: "Команда исследований и разработок, ориентированная на инновации",
     icon: "lucide:lightbulb",
   },
   {
     number: "7",
-    label: "Years Experience",
-    description: "Average years in medical device industry",
+    label: "Лет опыта",
+    description: "Средний стаж работы в отрасли медицинских устройств",
     icon: "lucide:trending-up",
   },
 ];---
@@ -26,12 +26,12 @@ const teamStats = [
 <section class="py-20 bg-gray-50">
   <div class="container">
     <div class="text-center mb-16">
-      <BlockTitle title="Our Team" sub_title="Experienced professionals dedicated to advancing medical technology" />
+      <BlockTitle title="Наша команда" sub_title="Опытные профессионалы, стремящиеся продвигать медицинские технологии" />
     </div>
-    <!--  Team Photo  -->
+    <!-- Фото команды -->
     <div class="mb-16 team-photo-container max-w-2xl mx-auto">
       <div class="relative overflow-hidden rounded-2xl shadow-xl">
-        <img src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/bf584ad3-7027-42e5-9199-5734190b0ee7.jpg" alt="Our Team" class="w-full h-auto object-cover team-photo" />
+        <img src="https://yizhanfei-prod1.oss-accelerate.aliyuncs.com/4299262263298/bf584ad3-7027-42e5-9199-5734190b0ee7.jpg" alt="Наша команда" class="w-full h-auto object-cover team-photo" />
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 team-stats-grid">
@@ -65,7 +65,7 @@ const teamStats = [
   gsap.registerPlugin(ScrollTrigger);
 
   function initTeamStatsAnimations() {
-    // 团队照片动画
+    // Анимация фото команды
     const teamPhoto = document.querySelector(".team-photo");
     const teamPhotoContainer = document.querySelector(".team-photo-container");
 
@@ -115,7 +115,7 @@ const teamStats = [
           stagger: 0.2,
         });
 
-      // 数字计数动画
+      // Анимация счетчика чисел
       teamStatCards.forEach((card) => {
         const numberElement = card.querySelector(".stat-number");
         const icon = card.querySelector(".stat-icon");

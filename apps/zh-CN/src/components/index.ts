@@ -37,3 +37,6 @@ export { default as HomeFlows } from "./HomeFlows.astro";
 export { default as QCode } from "./QCode.astro";
 export { default as MiniFloat } from "./MiniFloat.astro";
 export { default as Header } from "./Header.astro";
+export { default as PatentsShowcase } from "./PatentsShowcase.astro";
+export { default as QualityCertifications } from "./QualityCertifications.astro";
+export { default as TeamStats } from "./TeamStats.astro";

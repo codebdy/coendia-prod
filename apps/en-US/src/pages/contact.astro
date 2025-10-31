@@ -13,8 +13,7 @@ import Globals from "@/components/Globals.astro";
 // 生成面包屑
 const breadcrumbs = rxPage.breadcrumbs("Contact us", "Home");
 const config = (await rx.getTheme())?.config;
-const meta = (await rx.getPageBySlug("contact"))?.meta;
----
+const meta = (await rx.getPageBySlug("contact"))?.meta;---
 
 <Layout>
   <Meta slot="meta" content={meta} />
