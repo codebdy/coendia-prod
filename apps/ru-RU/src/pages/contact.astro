@@ -13,7 +13,8 @@ import Globals from "@/components/Globals.astro";
 // Генерация хлебных крошек
 const breadcrumbs = rxPage.breadcrumbs("Свяжитесь с нами", "Главная");
 const config = (await rx.getTheme())?.config;
-const meta = (await rx.getPageBySlug("contact"))?.meta;---
+const meta = (await rx.getPageBySlug("contact"))?.meta;
+---
 
 <Layout>
   <Meta slot="meta" content={meta} />
@@ -37,19 +38,19 @@ const meta = (await rx.getPageBySlug("contact"))?.meta;---
         <p class="text-6xl font-[100]">Свяжитесь с нами</p>
         <ul class="text-base flex flex-col gap-2">
           <li class="flex items-start gap-2">
-            <span class="font-mono text-white/60 w-20">Контакт:</span>
+            <span class="font-mono text-white/60 w-32">Контакт:</span>
             <span>{config?.contact}</span>
           </li>
           <li class="flex items-start gap-2">
-            <span class="text-white/60 w-20">Телефон:</span>
+            <span class="text-white/60 w-32">Телефон:</span>
             <span>{config?.tel}</span>
           </li>
           <li class="flex items-start gap-2">
-            <span class="text-white/60 w-20">Электронная почта:</span>
+            <span class="text-white/60 w-32">Электронная почта:</span>
             <span>{config?.email}</span>
           </li>
           <li class="flex items-start gap-2">
-            <span class="text-white/60 whitespace-nowrap w-20">Адрес:</span>
+            <span class="text-white/60 whitespace-nowrap w-32">Адрес:</span>
             <span>{config?.address}</span>
           </li>
         </ul>
@@ -58,15 +59,15 @@ const meta = (await rx.getPageBySlug("contact"))?.meta;---
           <p class="text-lg font-semibold mb-2">Офис в США</p>
           <ul class="text-base flex flex-col gap-1.5">
             <li class="flex items-center gap-2">
-              <span class="font-mono text-white/60 w-20">Контакт:</span>
+              <span class="font-mono text-white/60 w-32">Контакт:</span>
               <span>Giana</span>
             </li>
             <li class="flex items-center gap-2">
-              <span class="text-white/60 w-20">Электронная почта:</span>
+              <span class="text-white/60 w-32">Электронная почта:</span>
               <span>giana@coendia.com</span>
             </li>
             <li class="flex items-center gap-2">
-              <span class="text-white/60 w-20">Телефон:</span>
+              <span class="text-white/60 w-32">Телефон:</span>
               <span>732-707-0229</span>
             </li>
           </ul>
